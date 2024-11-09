@@ -1,0 +1,46 @@
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+
+{% block content %}
+
+<h1>Overview</h1>
+<p>This is the overview page.</p>
+
+<h2>Prompt Overview</h2>
+<p>All the prompts here.</p>
+
+<h2>User Overview</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Name</th>
+        <th>Admin</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{user.user_id}}</td>
+        <td>{{user.login}}</td>
+        <td>{{user.password}}</td>
+        <td>{{user.display_name}}</td>
+        <td>{{user.is_admin}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

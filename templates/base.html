@@ -5,7 +5,19 @@
     <title>My Flask App</title>
 </head>
 <body>
-    <h1>Welcome to my Flask app!</h1>
-    <p>{{ message }}</p>  <!-- This will display the message passed from the route -->
+    <header>
+        <h1>My App</h1>
+        <nav>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Samengestelden</p>
+    </footer>
+
 </body>
 </html>
