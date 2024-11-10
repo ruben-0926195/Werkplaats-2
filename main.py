@@ -11,6 +11,11 @@ def overview():
     # This will render the overview.html template and pass 'users' to it
     return render_template('overview.html', users=users)
 
+@app.route('/user/<user_id>')
+def user_show(user_id):
+    data = User()
+    user = data.get_single_user(user_id)
+    return render_template('user_show.html', user=user)
 
 @app.route('/user/create', methods=['GET', 'POST'])
 def user_create():
@@ -37,8 +42,8 @@ def user_create():
     return render_template('user_create.html')
 
 
-@app.route('/delete_user/<user_id>')
-def delete_task(user_id):
+@app.route('/user/delete/<user_id>')
+def user_delete(user_id):
     user_model = User()
     user_model.delete_user(user_id)
 
