@@ -1,0 +1,18 @@
+{% block content %}
+<h1>User Registration</h1>
+<form action="{{ url_for('user_create') }}" method="POST">
+    <label for="login">Login (Username):</label>
+    <input type="text" id="login" name="login" required><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <label for="display_name">Display Name:</label>
+    <input type="text" id="display_name" name="display_name" required><br><br>
+
+    <label for="is_admin">Admin:</label>
+    <input type="checkbox" id="is_admin" name="is_admin"><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}
