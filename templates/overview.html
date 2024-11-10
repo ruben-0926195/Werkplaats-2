@@ -33,6 +33,7 @@ tr:nth-child(even) {
         <th>Password</th>
         <th>Name</th>
         <th>Admin</th>
+        <th></th>
     </tr>
     {% for user in users %}
     <tr>
@@ -41,6 +42,7 @@ tr:nth-child(even) {
         <td>{{user.password}}</td>
         <td>{{user.display_name}}</td>
         <td>{{user.is_admin}}</td>
+        <td><button><a href="/delete_user/{{user.user_id}}">Delete</a> </button></td>
     </tr>
     {% endfor %}
 </table>

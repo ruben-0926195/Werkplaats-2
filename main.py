@@ -29,12 +29,21 @@ def user_create():
         # Redirect after successful form submission
         if new_user:
             print("User registered successfully!")
-            return redirect(url_for('overview'),)
+            return redirect(url_for('overview'))
         else:
             print("An error occurred. Please try again.")
             return redirect(url_for('user_create'))
 
     return render_template('user_create.html')
+
+
+@app.route('/delete_user/<user_id>')
+def delete_task(user_id):
+    user_model = User()
+    user_model.delete_user(user_id)
+
+    return redirect(url_for('overview'))
+
 
 
 if __name__ == "__main__":

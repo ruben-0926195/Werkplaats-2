@@ -15,3 +15,8 @@ class User:
             (login, password, display_name, is_admin))
         self.con.commit()
         return True
+
+    def delete_user(self, user_id):
+        self.cursor.execute("DELETE FROM users WHERE user_id=?", (str(user_id)))
+        self.con.commit()
+
