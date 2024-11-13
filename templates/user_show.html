@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container user-info-container">
+  <h2 class="text-center mb-4">User Information</h2>
+  <div class="card">
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-4 fw-bold">ID:</div>
+        <div class="col-8">{{user.user_id}}</div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-4 fw-bold">Username:</div>
+        <div class="col-8">{{user.login}}</div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-4 fw-bold">Password:</div>
+        <div class="col-8">{{user.password}}</div> <!-- Hidden password for security -->
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-4 fw-bold">Display Name:</div>
+        <div class="col-8">{{user.display_name}}</div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-4 fw-bold">Admin:</div>
+        <div class="col-8">{{user.is_admin}}</div> <!-- Shows if the user is an admin -->
+      </div>
+
+      <!-- Edit and Delete Buttons -->
+      <div class="d-flex justify-content-end mt-4">
+        <button class="btn btn-primary me-2">Edit</button>
+        <button class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
