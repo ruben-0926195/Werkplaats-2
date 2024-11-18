@@ -5,14 +5,31 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Replace with a strong secret key
 
 
+# @app.route('/')
+# def overview():
+#     data = User()
+#     users = data.get_all_users()
+#
+#     # This will render the overview.html template and pass 'users' to it
+#     return render_template('overview.html', users=users)
+
 @app.route('/')
 def overview():
     data = User()
-    users = data.get_all_users()
 
-    # This will render the overview.html template and pass 'users' to it
+    # Capture filter values from request arguments
+    filters = {
+        "user_id": request.args.get("user_id", "").strip(),
+        "login": request.args.get("login", "").strip(),
+        "password": request.args.get("password", "").strip(),
+        "display_name": request.args.get("display_name", "").strip(),
+        "is_admin": request.args.get("is_admin", "").strip(),
+    }
+
+    # Pass filters to the data layer
+    users = data.get_all_users(filters)
+
     return render_template('overview.html', users=users)
-
 
 @app.route('/user/<user_id>')
 def user_show(user_id):
