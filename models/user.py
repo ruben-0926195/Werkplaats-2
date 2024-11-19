@@ -6,30 +6,27 @@ class User:
         database = Database('./databases/database.db')
         self.cursor, self.con = database.connect_db()
 
-    # def get_all_users(self):
-    #     result = self.cursor.execute("SELECT * FROM users").fetchall()
-    #     return result
-
     def get_all_users(self, filters=None):
         query = "SELECT * FROM users WHERE 1=1"
         params = []
 
-        # Apply filters
-        if filters.get("user_id"):
-            query += " AND user_id LIKE ?"
-            params.append(f"%{filters['user_id']}%")
-        if filters.get("login"):
-            query += " AND login LIKE ?"
-            params.append(f"%{filters['login']}%")
-        if filters.get("password"):
-            query += " AND password LIKE ?"
-            params.append(f"%{filters['password']}%")
-        if filters.get("display_name"):
-            query += " AND display_name LIKE ?"
-            params.append(f"%{filters['display_name']}%")
-        if filters.get("is_admin"):
-            query += " AND is_admin LIKE ?"
-            params.append(f"%{filters['is_admin']}%")
+        if filters:
+            # Apply filters
+            if filters.get("user_id"):
+                query += " AND user_id LIKE ?"
+                params.append(f"%{filters['user_id']}%")
+            if filters.get("login"):
+                query += " AND login LIKE ?"
+                params.append(f"%{filters['login']}%")
+            if filters.get("password"):
+                query += " AND password LIKE ?"
+                params.append(f"%{filters['password']}%")
+            if filters.get("display_name"):
+                query += " AND display_name LIKE ?"
+                params.append(f"%{filters['display_name']}%")
+            if filters.get("is_admin"):
+                query += " AND is_admin LIKE ?"
+                params.append(f"%{filters['is_admin']}%")
 
         self.cursor.execute(query, params)
         result = self.cursor.fetchall()

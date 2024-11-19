@@ -5,29 +5,23 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Replace with a strong secret key
 
 
-# @app.route('/')
-# def overview():
-#     data = User()
-#     users = data.get_all_users()
-#
-#     # This will render the overview.html template and pass 'users' to it
-#     return render_template('overview.html', users=users)
-
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def overview():
+
     data = User()
 
-    # Capture filter values from request arguments
-    filters = {
-        "user_id": request.args.get("user_id", "").strip(),
-        "login": request.args.get("login", "").strip(),
-        "password": request.args.get("password", "").strip(),
-        "display_name": request.args.get("display_name", "").strip(),
-        "is_admin": request.args.get("is_admin", "").strip(),
-    }
+    # Check if a POST request was made else load users without filters
+    if request.method == "POST":
+        # Access POST data as a MultiDict
+        filters = request.form
+
+        # Pass filters to the data layer
+        users = data.get_all_users(filters)
+
+        return render_template('overview.html', users=users)
 
     # Pass filters to the data layer
-    users = data.get_all_users(filters)
+    users = data.get_all_users()
 
     return render_template('overview.html', users=users)
 
