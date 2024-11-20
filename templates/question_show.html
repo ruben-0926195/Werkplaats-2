@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center mb-4">Vraag indexeren naar taxonomie</h2>
+
+    <!-- Display Question Information -->
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-4 fw-bold">Vraag:</div>
+                <div class="col-8">{{ question.text }}</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-4 fw-bold">Vak:</div>
+                <div class="col-8">{{ question.subject }}</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-4 fw-bold">Onderwijsniveau:</div>
+                <div class="col-8">{{ question.onderwijsniveau }}</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-4 fw-bold">Leerjaar:</div>
+                <div class="col-8">{{ question.leerjaar }}</div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
