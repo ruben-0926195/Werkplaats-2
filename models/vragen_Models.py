@@ -7,18 +7,18 @@ class Questions:
         self.cursor, self.con = database.connect_db()
 
     def get_all_questions(self):
-        result = self.cursor.execute("SELECT * FROM Questions").fetchall()
+        result = self.cursor.execute("SELECT * FROM questions").fetchall()
         return result
 
     def get_single_question(self, question_id):
-        self.cursor.execute("SELECT * FROM users WHERE questions_id = ?", (question_id,))
+        self.cursor.execute("SELECT * FROM questions WHERE questions_id = ?", (question_id,))
         question = self.cursor.fetchone()
         return question
 
     def create_question(self, questions_id, prompts_id, users_id, question,
                         taxonomy_bloom, rtti, tax_bloom_changed,rtti_changed):
         self.cursor.execute(
-            "INSERT into questions (questions_id,prompts_id,users_id,users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed)VALUES (?,?,?,?,?,?,?,?)",
+            "INSERT into questions (questions_id,prompts_id,users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed)VALUES (?,?,?,?,?,?,?,?)",
             (questions_id, prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed,rtti_changed))
         self.con.commit()
         return True
@@ -33,7 +33,7 @@ class Questions:
                 return None
 
             self.cursor.execute("""
-                UPDATE Questions
+                UPDATE questions
                 SET questions_id = ?, prompts_id = ?, users_id = ?, question = ?, taxonomy_bloom = ?, rtti = ?, tax_bloom_changed = ?, rtti_changed = ?
                 WHERE questions_id = ?
             """, (questions_id,prompts_id,users_id,users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed))

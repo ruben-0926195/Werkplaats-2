@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from models.user import User
+from models.vragen_Models import Questions
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Replace with a strong secret key
@@ -12,6 +13,13 @@ def overview():
 
     # This will render the overview.html template and pass 'users' to it
     return render_template('overview.html', users=users)
+
+@app.route('/questions/')
+def questions_overview():
+    data = Questions()
+    questions = data.get_all_questions()
+
+    return render_template("questions_overview.html", questions=questions)
 
 
 @app.route('/user/<user_id>')
