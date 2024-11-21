@@ -14,6 +14,10 @@ def overview():
     # This will render the overview.html template and pass 'users' to it
     return render_template('overview.html', users=users)
 
+@app.route('/questions/qustion_indaxeren')
+def qustion_indaxeren():
+    return "question_indaxeren"
+
 @app.route('/questions/')
 def questions_overview():
     data = Questions()
