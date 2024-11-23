@@ -23,11 +23,6 @@
                                    placeholder="Search Username" value="{{ request.args.get('login', '') }}">
                         </th>
                         <th>
-                            Password
-                            <input type="text" name="password" class="form-control form-control-sm mt-1"
-                                   placeholder="Search Password" value="{{ request.args.get('password', '') }}">
-                        </th>
-                        <th>
                             Name
                             <input type="text" name="display_name" class="form-control form-control-sm mt-1"
                                    placeholder="Search Name" value="{{ request.args.get('display_name', '') }}">
@@ -37,7 +32,13 @@
                             <input type="text" name="is_admin" class="form-control form-control-sm mt-1"
                                    placeholder="Search Admin" value="{{ request.args.get('is_admin', '') }}">
                         </th>
-                        <th>Actions</th>
+                        <th>
+                            Actions
+                            <button type="submit" 
+                                    class="btn btn-primary btn-sm mt-2"
+                                    style="display:block;"
+                            ><i class="fas fa-filter"></i></button>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -49,7 +50,6 @@
                             </a>
                         </td>
                         <td>{{ user.login }}</td>
-                        <td>{{ user.password }}</td>
                         <td>{{ user.display_name }}</td>
                         <td>{{ user.is_admin }}</td>
                         <td>
@@ -65,7 +65,6 @@
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm mt-2">Filter</button>
         </form>
     </div>
 </div>
