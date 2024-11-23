@@ -6,7 +6,11 @@ class User:
         database = Database('./databases/database.db')
         self.cursor, self.con = database.connect_db()
 
-    def get_all_users(self, filters=None):
+    def get_all_users(self, page, per_page, filters=None):
+
+        offset = (page - 1) * per_page
+        total_users = self.cursor.execute("SELECT COUNT(*) FROM users").fetchone()[0]
+
         query = "SELECT * FROM users WHERE 1=1"
         params = []
 
@@ -28,10 +32,15 @@ class User:
                 query += " AND is_admin LIKE ?"
                 params.append(f"%{filters['is_admin']}%")
 
+        query += " LIMIT ? OFFSET ?"
+        params.append(per_page)
+        params.append(offset)
+
+        # Execute the query
         self.cursor.execute(query, params)
         result = self.cursor.fetchall()
 
-        return result
+        return result, total_users
 
     def get_single_user(self, user_id):
         self.cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,))

@@ -18,20 +18,29 @@ def hash_password(password):
 def overview():
     data = User()
 
+    page = int(request.args.get('page', 1))  # Default page is 1
+    per_page = int(request.args.get('per_page', 5))  # Default 10 items per page
+
     # Check if a POST request was made else load users without filters
     if request.method == "POST":
         # Access POST data as a MultiDict
         filters = request.form
 
         # Pass filters to the data layer
-        users = data.get_all_users(filters)
+        users, total_users = data.get_all_users(page, per_page, filters)
 
-        return render_template('overview.html', users=users)
+        total_pages = (total_users + per_page - 1) // per_page
+
+        return render_template('overview.html',
+                               users=users, page=page, per_page=per_page, total_pages=total_pages)
 
     # Pass filters to the data layer
-    users = data.get_all_users()
+    users, total_users = data.get_all_users(page, per_page)
 
-    return render_template('overview.html', users=users)
+    total_pages = (total_users + per_page - 1) // per_page
+
+    return render_template('overview.html',
+                           users=users, page=page, per_page=per_page, total_pages=total_pages)
 
 
 @app.route('/user/<user_id>')
