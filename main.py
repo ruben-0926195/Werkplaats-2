@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from models.user import User
 import hashlib
 
@@ -26,6 +26,9 @@ def overview():
         # Access POST data as a MultiDict
         filters = request.form
 
+        # Store in session
+        session['filters'] = filters
+
         # Pass filters to the data layer
         users, total_users = data.get_all_users(page, per_page, filters)
 
@@ -34,8 +37,11 @@ def overview():
         return render_template('overview.html',
                                users=users, page=page, per_page=per_page, total_pages=total_pages)
 
+    # Retrieve filters from session to ensure consistent pagination results
+    filters = session.get('filters', {})
+
     # Pass filters to the data layer
-    users, total_users = data.get_all_users(page, per_page)
+    users, total_users = data.get_all_users(page, per_page, filters)
 
     total_pages = (total_users + per_page - 1) // per_page
 

@@ -9,36 +9,43 @@ class User:
     def get_all_users(self, page, per_page, filters=None):
 
         offset = (page - 1) * per_page
-        total_users = self.cursor.execute("SELECT COUNT(*) FROM users").fetchone()[0]
 
-        query = "SELECT * FROM users WHERE 1=1"
+        query_get_users = "SELECT * FROM users WHERE 1=1"
+        query_get_total_users = "SELECT COUNT(*) FROM users WHERE 1=1"
         params = []
 
         if filters:
             # Apply filters
             if filters.get("user_id"):
-                query += " AND user_id LIKE ?"
+                query_get_users += " AND user_id LIKE ?"
+                query_get_total_users += " AND user_id LIKE ?"
                 params.append(f"%{filters['user_id']}%")
             if filters.get("login"):
-                query += " AND login LIKE ?"
+                query_get_users += " AND login LIKE ?"
+                query_get_total_users += " AND login LIKE ?"
                 params.append(f"%{filters['login']}%")
             if filters.get("password"):
-                query += " AND password LIKE ?"
+                query_get_users += " AND password LIKE ?"
+                query_get_total_users += " AND password LIKE ?"
                 params.append(f"%{filters['password']}%")
             if filters.get("display_name"):
-                query += " AND display_name LIKE ?"
+                query_get_users += " AND display_name LIKE ?"
+                query_get_total_users += " AND display_name LIKE ?"
                 params.append(f"%{filters['display_name']}%")
             if filters.get("is_admin"):
-                query += " AND is_admin LIKE ?"
+                query_get_users += " AND is_admin LIKE ?"
+                query_get_total_users += " AND is_admin LIKE ?"
                 params.append(f"%{filters['is_admin']}%")
 
-        query += " LIMIT ? OFFSET ?"
-        params.append(per_page)
-        params.append(offset)
+        query_get_users += " LIMIT ? OFFSET ?"
+        params_get_users = params + [per_page, offset]
 
         # Execute the query
-        self.cursor.execute(query, params)
+        self.cursor.execute(query_get_users, params_get_users)
         result = self.cursor.fetchall()
+
+        self.cursor.execute(query_get_total_users, params)
+        total_users = self.cursor.fetchone()[0]
 
         return result, total_users
 
