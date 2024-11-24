@@ -63,7 +63,7 @@ def questions_overview():
 @app.route('/questions/<question_id>')
 def question_show(question_id):
     data = Questions()
-    question = data.get_single_question(question_id)  # Replace with your logic to fetch a single question by ID
+    question = data.get_single_question(question_id)
     return render_template('question_show.html', question=question)
 
 
