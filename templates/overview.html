@@ -67,17 +67,38 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                  <div>
-                        {% if page > 1 %}
-                            <a href="?page={{ page - 1 }}&per_page={{ per_page }}">Previous</a>
-                        {% endif %}
+                    <nav aria-label="Table navigation">
+                        <ul class="pagination">
+                            {% if page > 1 %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page - 1 }}&per_page={{ per_page }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
 
-                        <span>Page {{ page }} of {{ total_pages }}</span>
+                            {% for i in range(1, total_pages + 1) %}
+                            <li class="page-item {% if i == page %}active{% endif %}">
+                                <a class="page-link"
+                                   href="?page={{ i }}&per_page={{ per_page }}">
+                                    {{ i }}
+                                </a>
+                            </li>
+                            {% endfor %}
 
-                        {% if page < total_pages %}
-                            <a href="?page={{ page + 1 }}&per_page={{ per_page }}">Next</a>
-                        {% endif %}
-                    </div>
+                            {% if page < total_pages %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page + 1 }}&per_page={{ per_page }}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
                 </div>
             </form>
         </div>
