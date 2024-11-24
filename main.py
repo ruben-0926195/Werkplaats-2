@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from models.user import User
+from models.vragen_Models import Questions
 import hashlib
 
 app = Flask(__name__)
@@ -47,6 +48,17 @@ def overview():
 
     return render_template('overview.html',
                            users=users, page=page, per_page=per_page, total_pages=total_pages)
+
+@app.route('/questions/qustion_indaxeren')
+def qustion_indaxeren():
+    return "question_indaxeren"
+
+@app.route('/questions/')
+def questions_overview():
+    data = Questions()
+    questions = data.get_all_questions()
+
+    return render_template("questions_overview.html", questions=questions)
 
 
 @app.route('/user/<user_id>')
