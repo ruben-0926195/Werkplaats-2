@@ -24,9 +24,8 @@
                 <td>{{question.taxonomy_bloom}}</td>
                 <td>{{question.rtti}}</td>
                 <td>
-                    <a href="{{ url_for('qustion_indaxeren',question_id = question.questions_id)}}"
-                           class="btn btn-danger btn-sm">
-                            Indaxeren
+                  <a href="{{ url_for('question_show', question_id=question.questions_id) }}" class="btn btn-primary btn-sm">
+                            Indexeren
                     </a>
                 </td>
             </tr>

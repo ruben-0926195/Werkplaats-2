@@ -60,6 +60,12 @@ def questions_overview():
 
     return render_template("questions_overview.html", questions=questions)
 
+@app.route('/questions/<question_id>')
+def question_show(question_id):
+    data = Questions()
+    question = data.get_single_question(question_id)  # Replace with your logic to fetch a single question by ID
+    return render_template('question_show.html', question=question)
+
 
 @app.route('/user/<user_id>')
 def user_show(user_id):
