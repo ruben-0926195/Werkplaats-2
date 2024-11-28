@@ -101,8 +101,19 @@ def user_update(user_id):
     return render_template('user_update.html', user=user)
 
 
-@user_routes.route('/user/delete/<user_id>')
+@user_routes.route('/user/delete/<user_id>', methods=['GET', 'POST'])
 def user_delete(user_id):
-    user_model = User()
-    user_model.delete_user(user_id)
-    return redirect(url_for('user.overview'))
+    data = User()
+
+    # Fetch user by ID
+    user = data.get_single_user(user_id)  # This should return the user object with `user_username` and `user_id`
+
+    if request.method == 'POST':
+        # Handle deletion
+        data.delete_user(user_id)
+        flash("User deleted successfully!", "success")
+        return redirect(url_for('user.overview'))
+
+    # Pass the user object to the confirmation page
+    return render_template('user_delete_confirm.html', user=user)
+
