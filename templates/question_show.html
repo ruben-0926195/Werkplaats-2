@@ -1,34 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
+
+
+
     <h2 class="text-center mb-4">Vraag indexeren naar taxonomie</h2>
 
-    <!-- Display Question Information -->
-    <div class="card">
+
+    <div class="card shadow-sm mb-4">
         <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-4 fw-bold">Vraag:</div>
-                <div class="col-8">{{ question.text }}</div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-4 fw-bold">Vak:</div>
-                <div class="col-8">{{ question.subject }}</div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-4 fw-bold">Onderwijsniveau:</div>
-                <div class="col-8">{{ question.onderwijsniveau }}</div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-4 fw-bold">Leerjaar:</div>
-                <div class="col-8">{{ question.leerjaar }}</div>
-            </div>
+            <p>{{ question.question }}</p>
         </div>
     </div>
 
 
-</div>
+    <div class="mb-3">
+        <p><strong>Vak:</strong> {{ question.subject }}</p>
+        <p><strong>Onderwijsniveau:</strong> {{ question.onderwijsniveau }}</p>
+        <p><strong>Leerjaar:</strong> {{ question.leerjaar }}</p>
+    </div>
+
+
+    <div class="d-flex align-items-end mt-4">
+        <div class="me-3">
+            <label for="promptSelect" class="form-label"><strong>Prompt</strong></label>
+            <select id="promptSelect" class="form-select" style="width: 200px;">
+
+            </select>
+        </div>
+
+        <button class="btn btn-primary" style="height: 38px;">Genereer voorstel</button>
+    </div>
+
 {% endblock %}
