@@ -5,9 +5,9 @@ from models.vragen_Models import Questions
 question_routes = Blueprint('question', __name__)
 
 
-@question_routes.route('/questions/qustion_indaxeren')
-def qustion_indaxeren():
-    return "question_indaxeren"
+@question_routes.route('/question/question_indexing')
+def question_indexing():
+    return "question_indexing"
 
 
 @question_routes.route('/question/overview')
@@ -25,12 +25,12 @@ def question_show(question_id):
     return render_template('question_show.html', question=question)
 
 
-@question_routes.route('/questions/upload')
+@question_routes.route('/question/upload')
 def upload_page():
     return render_template('upload.html')
 
 
-@question_routes.route('/questions/upload', methods=['POST'])
+@question_routes.route('/question/upload', methods=['POST'])
 def upload_json():
     file = request.files.get('file')
     if not file or file.filename == '':
