@@ -41,7 +41,7 @@ def process_json(file):
                     question['vak'],
                     question['onderwijsniveau'],
                     question['leerjaar'],
-                    question.get('question_index', 0),
+                    question.get('question_index'),
                     None,
                     None
                 )
