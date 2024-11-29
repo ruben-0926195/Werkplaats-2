@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, jsonify
+from models.question_extraction import process_json
 from models.vragen_Models import Questions
 
 question_routes = Blueprint('question', __name__)
@@ -22,3 +23,23 @@ def question_show(question_id):
     data = Questions()
     question = data.get_single_question(question_id)
     return render_template('question_show.html', question=question)
+
+
+@question_routes.route('/questions/upload')
+def upload_page():
+    return render_template('upload.html')
+
+
+@question_routes.route('/questions/upload', methods=['POST'])
+def upload_json():
+    file = request.files.get('file')
+    if not file or file.filename == '':
+        return jsonify({"error": "No file selected."}), 400
+
+
+    result = process_json(file)
+
+
+    if "error" in result:
+        return render_template('upload.html', result=result)
+    return render_template('upload.html', result=result)
