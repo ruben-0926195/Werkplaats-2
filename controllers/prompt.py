@@ -1,8 +1,42 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from models.prompt import Prompt
 
 
 prompt_routes = Blueprint('prompt', __name__)
+
+@prompt_routes.route('/prompt/overview', methods=['GET', 'POST'])
+def prompt_overview():
+    data = Prompt()
+
+    page = int(request.args.get('page', 1))  # Default page is 1
+    per_page = int(request.args.get('per_page', 5))  # Default 10 items per page
+
+    # Check if a POST request was made else load users without filters
+    if request.method == "POST":
+        # Access POST data as a MultiDict
+        filters = request.form
+
+        # Store in session
+        session['filters'] = filters
+
+        # Pass filters to the data layer
+        prompts, total_prompts = data.get_all_prompts(page, per_page, filters)
+
+        total_pages = (total_prompts + per_page - 1) // per_page
+
+        return render_template('prompt_overview.html',
+                               prompts=prompts, page=page, per_page=per_page, total_pages=total_pages)
+
+    # Retrieve filters from session to ensure consistent pagination results
+    filters = session.get('filters', {})
+
+    # Pass filters to the data layer
+    prompts, total_prompts = data.get_all_prompts(page, per_page, filters)
+
+    total_pages = (total_prompts + per_page - 1) // per_page
+
+    return render_template('prompt_overview.html',
+                           prompts=prompts, page=page, per_page=per_page, total_pages=total_pages)
 
 @prompt_routes.route('/prompt/create', methods=['GET', 'POST'])
 def prompt_create():
