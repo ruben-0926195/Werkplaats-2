@@ -4,7 +4,6 @@
     <div id="table1" class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3>Prompts</h3>
-            <a href="{{ url_for('prompt.prompt_create') }}" class="btn btn-success btn-sm">+</a>
         </div>
         <div class="card-body">
             <form method="POST" action="{{ url_for('prompt.prompt_overview') }}">
@@ -24,10 +23,16 @@
                             </th>
                             <th>
                                 Actions
-                                <button type="submit"
-                                        class="btn btn-primary btn-sm mt-2"
-                                        style="display:block;"
-                                ><i class="fas fa-filter"></i></button>
+                                <div>
+                                    <button type="submit"
+                                            class="btn btn-primary btn-sm me-1">
+                                        <i class="fas fa-filter"></i>
+                                    </button>
+                                    <button onclick="location.href='{{ url_for('prompt.prompt_create') }}'"
+                                            class="btn btn-success btn-sm me-1">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
                             </th>
                         </tr>
                         </thead>
