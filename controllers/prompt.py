@@ -38,6 +38,12 @@ def prompt_overview():
     return render_template('prompt_overview.html',
                            prompts=prompts, page=page, per_page=per_page, total_pages=total_pages)
 
+@prompt_routes.route('/prompt/<prompt_id>')
+def prompt_show(prompt_id):
+    data = Prompt()
+    prompt = data.get_single_prompt(prompt_id)
+    return render_template('prompt_show.html', prompt=prompt)
+
 @prompt_routes.route('/prompt/create', methods=['GET', 'POST'])
 def prompt_create():
     if request.method == 'POST':
@@ -48,7 +54,7 @@ def prompt_create():
 
         # Redirect after successful form submission
         if new_prompt:
-            return redirect(url_for('prompt.overview'))
+            return redirect(url_for('prompt.prompt_overview'))
         else:
             message = "An error occurred. Please try again."
             return redirect(url_for('prompt.prompt_create'))

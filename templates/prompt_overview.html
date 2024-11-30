@@ -35,7 +35,7 @@
                         {% for prompt in prompts %}
                             <tr>
                                 <td>
-                                    <a href=""
+                                    <a href="{{ url_for('prompt.prompt_show', prompt_id=prompt.prompts_id) }}"
                                        class="text-decoration-none">
                                         {{ prompt.prompts_id }}
                                     </a>

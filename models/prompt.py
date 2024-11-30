@@ -43,3 +43,8 @@ class Prompt:
             (prompt,))
         self.con.commit()
         return True
+
+    def get_single_prompt(self, prompt_id):
+        self.cursor.execute("SELECT * FROM prompts WHERE prompts_id = ?", (prompt_id,))
+        prompt = self.cursor.fetchone()
+        return prompt
