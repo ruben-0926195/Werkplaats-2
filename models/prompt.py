@@ -48,3 +48,7 @@ class Prompt:
         self.cursor.execute("SELECT * FROM prompts WHERE prompts_id = ?", (prompt_id,))
         prompt = self.cursor.fetchone()
         return prompt
+
+    def delete_prompt(self, prompt_id):
+        self.cursor.execute("DELETE FROM prompts WHERE prompts_id=?", (str(prompt_id),))
+        self.con.commit()

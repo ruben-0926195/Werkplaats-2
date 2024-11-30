@@ -60,3 +60,17 @@ def prompt_create():
             return redirect(url_for('prompt.prompt_create'))
 
     return render_template('prompt_create.html')
+
+@prompt_routes.route('/prompt/delete/<prompt_id>', methods=['GET', 'POST'])
+def prompt_delete(prompt_id):
+    data = Prompt()
+
+    prompt = data.get_single_prompt(prompt_id)
+
+    if request.method == 'POST':
+        data.delete_prompt(prompt_id)
+        message = "User deleted successfully!", "success"
+        return redirect(url_for('prompt.prompt_overview'))
+
+    # Pass the user object to the confirmation page
+    return render_template('prompt_delete_modal.html', prompt=prompt)

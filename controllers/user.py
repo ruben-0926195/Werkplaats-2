@@ -149,5 +149,5 @@ def user_delete(user_id):
         return redirect(url_for('user.overview'))
 
     # Pass the user object to the confirmation page
-    return render_template('user_delete_confirm.html', user=user)
+    return render_template('user_delete_modal.html', user=user)
 
