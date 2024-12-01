@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, jsonify
+
 from models.question_extraction import process_json
 from models.vragen_Models import Questions
+from models.prompt import Prompt
 
 question_routes = Blueprint('question', __name__)
 
@@ -22,7 +24,11 @@ def question_overview():
 def question_show(question_id):
     data = Questions()
     question = data.get_single_question(question_id)
-    return render_template('question_show.html', question=question)
+
+    prompt = Prompt()
+    prompts = prompt.get_prompts()
+
+    return render_template('question_show.html', question=question, prompts=prompts)
 
 
 @question_routes.route('/question/upload')

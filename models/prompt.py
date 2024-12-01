@@ -37,6 +37,17 @@ class Prompt:
 
         return result, total_prompts
 
+    def get_single_prompt(self, prompt_id):
+        self.cursor.execute(
+            "SELECT u.*, p.* FROM prompts p inner join users u on p.user_id = u.user_id WHERE prompts_id = ?",
+            (prompt_id,))
+        prompt = self.cursor.fetchone()
+        return prompt
+
+    def get_prompts(self):
+        result = self.cursor.execute("SELECT * FROM prompts").fetchall()
+        return result
+
     def create_prompt(self, title, prompt, user_id = 3, curr_date = date.today(),
                       categorized = 0, correct = 0, incorrect = 0):
         self.cursor.execute(
@@ -45,11 +56,6 @@ class Prompt:
             (user_id, title, prompt, curr_date, categorized, correct, incorrect))
         self.con.commit()
         return True
-
-    def get_single_prompt(self, prompt_id):
-        self.cursor.execute("SELECT u.*, p.* FROM prompts p inner join users u on p.user_id = u.user_id WHERE prompts_id = ?", (prompt_id,))
-        prompt = self.cursor.fetchone()
-        return prompt
 
     def delete_prompt(self, prompt_id):
         self.cursor.execute("DELETE FROM prompts WHERE prompts_id=?", (str(prompt_id),))

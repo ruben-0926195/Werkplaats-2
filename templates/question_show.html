@@ -25,7 +25,9 @@
         <div class="me-3">
             <label for="promptSelect" class="form-label"><strong>Prompt</strong></label>
             <select id="promptSelect" class="form-select" style="width: 200px;">
-
+                {% for prompt in prompts %}
+                    <option value="{{ prompt.prompts_id }}">{{ prompt.title }}</option>
+                {% endfor %}
             </select>
         </div>
 
