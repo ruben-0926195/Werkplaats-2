@@ -59,7 +59,7 @@
                                 <td>{{ prompt.prompt }}</td>
                                  <td>{{ prompt.categorized }}</td>
                                 <td>
-                                    <a href=""
+                                    <a href="{{ url_for('prompt.prompt_update', prompt_id=prompt.prompts_id) }}"
                                        class="btn btn-primary btn-sm me-1">
                                         <i class="fas fa-edit"></i>
                                     </a>

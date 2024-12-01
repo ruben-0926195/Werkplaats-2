@@ -62,6 +62,22 @@ def prompt_create():
 
     return render_template('prompt_create.html')
 
+@prompt_routes.route('/prompt/update/<prompt_id>', methods=['GET', 'POST'])
+def prompt_update(prompt_id):
+    prompt_model = Prompt()
+
+    if request.method == 'POST':
+        title = request.form.get('title')
+        prompt = request.form.get('prompt')
+
+        prompt_model.update_prompt(prompt_id, title, prompt)
+
+        return redirect(url_for('prompt.prompt_overview'))
+
+    prompt = prompt_model.get_single_prompt(prompt_id)
+
+    return render_template('prompt_update.html', prompt=prompt)
+
 @prompt_routes.route('/prompt/delete/<prompt_id>', methods=['GET', 'POST'])
 def prompt_delete(prompt_id):
     data = Prompt()

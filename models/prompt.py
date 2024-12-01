@@ -57,6 +57,14 @@ class Prompt:
         self.con.commit()
         return True
 
+    def update_prompt(self, prompt_id, title, prompt):
+        self.cursor.execute("""
+                UPDATE prompts
+                SET title = ?, prompt = ?
+                WHERE prompts_id = ?;
+            """, (title, prompt, prompt_id))
+        self.con.commit()  # Commit the transaction
+
     def delete_prompt(self, prompt_id):
         self.cursor.execute("DELETE FROM prompts WHERE prompts_id=?", (str(prompt_id),))
         self.con.commit()
