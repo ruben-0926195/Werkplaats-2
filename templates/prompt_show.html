@@ -1,26 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container user-info-container">
-  <h2 class="text-center mb-4">Prompt Information</h2>
-  <div class="card">
-    <div class="card-body">
-      <div class="row mb-3">
-        <div class="col-4 fw-bold">ID:</div>
-        <div class="col-8">{{prompt.prompts_id}}</div>
-      </div>
+    <div class="container user-info-container">
+        <h2 class="text-center mb-4">Prompt Details</h2>
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-4 fw-bold">ID:</div>
+                    <div class="col-8">{{ prompt.prompts_id }}</div>
+                </div>
 
-      <div class="row mb-3">
-        <div class="col-4 fw-bold">Prompt:</div>
-        <div class="col-8">{{prompt.prompt}}</div>
-      </div>
+                <div class="row mb-3">
+                    <div class="col-4 fw-bold">Title:</div>
+                    <div class="col-8">{{ prompt.title }}</div>
+                </div>
 
-      <!-- Edit and Delete Buttons -->
-      <div class="d-flex justify-content-end mt-4">
-        <button class="btn btn-primary me-2">Edit</button>
-        <button class="btn btn-danger">Delete</button>
-      </div>
+                <div class="row mb-3">
+                    <div class="col-4 fw-bold">Prompt:</div>
+                    <div class="col-8">{{ prompt.prompt }}</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4 fw-bold">User:</div>
+                    <div class="col-8">{{ prompt.display_name }}</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4 fw-bold">Date:</div>
+                    <div class="col-8">{{ prompt.date }}</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4 fw-bold">Categorized:</div>
+                    <div class="col-8">{{ prompt.categorized }}</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4 fw-bold">Correct:</div>
+                    <div class="col-8">{{ prompt.correct }}</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4 fw-bold">Incorrect:</div>
+                    <div class="col-8">{{ prompt.incorrect }}</div>
+                </div>
+
+                <!-- Edit and Delete Buttons -->
+                <div class="d-flex justify-content-end mt-4">
+                    <button class="btn btn-primary me-2">Edit</button>
+                    <button class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 {% endblock %}

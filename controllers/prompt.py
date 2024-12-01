@@ -47,10 +47,11 @@ def prompt_show(prompt_id):
 @prompt_routes.route('/prompt/create', methods=['GET', 'POST'])
 def prompt_create():
     if request.method == 'POST':
-        prompt_text = request.form.get('prompt')
+        title = request.form.get('prompt')
+        prompt = request.form.get('prompt')
 
         prompt_model = Prompt()
-        new_prompt = prompt_model.create_prompt(prompt_text)
+        new_prompt = prompt_model.create_prompt(title, prompt)
 
         # Redirect after successful form submission
         if new_prompt:

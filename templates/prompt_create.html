@@ -9,15 +9,15 @@
       <form action="{{ url_for('prompt.prompt_create') }}" method="POST">
 
         <!-- Title  -->
-{#        <div class="mb-3">#}
-{#          <label for="title" class="form-label">Title</label>#}
-{#          <input type="text" class="form-control" id="title" name="title" placeholder="Title" required>#}
-{#        </div>#}
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" class="form-control" id="title" name="title" placeholder="Enter a title" required>
+        </div>
 
         <!-- Prompt -->
         <div class="mb-3">
-          <label for="prompt" class="form-label"></label>
-          <textarea class="form-control" id="prompt" name="prompt" placeholder="Prompt" rows="3" required></textarea>
+          <label for="prompt" class="form-label">Prompt</label>
+          <textarea class="form-control" id="prompt" name="prompt" placeholder="Enter the prompt" rows="3" required></textarea>
         </div>
 
         <!-- Submit Button -->
