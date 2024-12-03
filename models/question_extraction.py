@@ -15,42 +15,67 @@ def process_json(file):
         return {"error": "Uploaded file is not a JSON file."}
 
     try:
+
         json_data = json.load(file)
     except json.JSONDecodeError as e:
         return {"error": f"Invalid JSON format: {e}"}
+
+
+    print(f"Loaded JSON Data: {json_data}")
+
+    if not json_data:
+        return {"error": "Uploaded JSON is empty or invalid."}
+
 
     db = Database(db_path)
     cursor, connection = db.connect_db()
 
     try:
-        # Check if the data is being read properly
-        if not json_data:
-            return {"error": "Uploaded JSON is empty or invalid."}
 
-        # Insert each question into the database
         for question in json_data:
             try:
-                sql = '''INSERT INTO questions (questions_id, prompts_id, users_id, question, answer, vak, onderwijsniveau, leerjaar, question_index, taxonomy_bloom, rtti) 
-                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
+
+                question_id = question.get('question_id', None)
+                question_text = question.get('question', None)
+                answer = question.get('answer', '')
+                vak = question.get('vak', '')
+                onderwijsniveau = question.get('onderwijsniveau', '')
+                leerjaar = question.get('leerjaar', None)
+                question_index = question.get('question_index', None)
+                taxonomy_bloom = question.get('taxonomy_bloom', None)
+                rtti = question.get('rtti', None)
+
+
+                if not question_id or not question_text:
+                    raise ValueError("Missing required fields 'question_id' or 'question'.")
+
+                sql = '''
+                    INSERT INTO questions 
+                    (questions_id, prompts_id, users_id, question, answer, vak, onderwijsniveau, leerjaar, question_index, taxonomy_bloom, rtti) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                '''
                 val = (
-                    question['question_id'],
-                    0,
-                    '',
-                    question['question'],
-                    question.get('answer', ''),
-                    question['vak'],
-                    question['onderwijsniveau'],
-                    question['leerjaar'],
-                    question.get('question_index'),
-                    None,
-                    None
+                    question_id,  # questions_id
+                    0,            # prompts_id
+                    '',           # users_id
+                    question_text,
+                    answer,
+                    vak,
+                    onderwijsniveau,
+                    leerjaar,
+                    question_index,
+                    taxonomy_bloom,
+                    rtti
                 )
                 cursor.execute(sql, val)
             except Exception as e:
-                return {"error": f"Error inserting question: {e}"}
+
+                print(f"Error inserting question: {e}")
+                continue
 
         connection.commit()
     except Exception as e:
+        print(f"Database insertion error: {e}")
         return {"error": f"Database insertion error: {e}"}
     finally:
         db.close_connection()

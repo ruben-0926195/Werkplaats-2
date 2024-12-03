@@ -3,7 +3,7 @@
 {% block content %}
 
     <h1>Upload JSON File</h1>
-    <form action="/questions/upload" method="post" enctype="multipart/form-data">
+    <form action="/question/upload" method="post" enctype="multipart/form-data">
         <label for="file">Choose JSON file:</label>
         <input type="file" id="file" name="file" accept=".json" required>
         <button type="submit">Upload</button>
