@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from models.user import User
 
 login_routes = Blueprint('login', __name__)
@@ -28,9 +28,9 @@ def login():
 
 @login_routes.route('/logout')
 def logout():
-    session.pop('logged_in', None)
+    session.pop('logged_in', False)
     session.pop('username', None)
     session.pop('is_admin', None)
     session.clear()
-    return redirect(url_for('question.question_overview'))
+    return redirect(url_for('login.login'))
 

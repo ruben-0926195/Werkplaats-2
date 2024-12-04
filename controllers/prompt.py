@@ -6,7 +6,7 @@ prompt_routes = Blueprint('prompt', __name__)
 
 @prompt_routes.route('/prompt/overview', methods=['GET', 'POST'])
 def prompt_overview():
-    if "is_login" not in session:
+    if "logged_in" not in session:
         return redirect(url_for('login.login'))
 
     data = Prompt()

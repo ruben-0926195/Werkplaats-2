@@ -9,7 +9,7 @@ question_routes = Blueprint('question', __name__)
 
 @question_routes.route('/question/question_indexing')
 def question_indexing():
-    if "is_login" not in session:
+    if "logged_in" not in session:
         return redirect(url_for('login.login'))
 
     return "question_indexing"
@@ -24,7 +24,7 @@ def question_indexing():
 
 @question_routes.route('/question/overview', methods=['GET', 'POST'])
 def question_overview():
-    if "is_login" not in session:
+    if "logged_in" not in session:
         return redirect(url_for('login.login'))
 
     data = Questions()
@@ -61,7 +61,7 @@ def question_overview():
 
 @question_routes.route('/question/<question_id>')
 def question_show(question_id):
-    if "is_login" not in session:
+    if "logged_in" not in session:
         return redirect(url_for('login.login'))
 
     data = Questions()
@@ -75,9 +75,8 @@ def question_show(question_id):
 
 @question_routes.route('/question/upload')
 def upload_page():
-    if "is_login" not in session:
+    if "logged_in" not in session:
         return redirect(url_for('login.login'))
-
     return render_template('upload.html')
 
 
