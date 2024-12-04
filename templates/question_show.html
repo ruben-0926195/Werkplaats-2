@@ -15,7 +15,7 @@
 
 
     <div class="mb-3">
-        <p><strong>Vak:</strong> {{ question.subject }}</p>
+        <p><strong>Vak:</strong> {{ question.vak }}</p>
         <p><strong>Onderwijsniveau:</strong> {{ question.onderwijsniveau }}</p>
         <p><strong>Leerjaar:</strong> {{ question.leerjaar }}</p>
     </div>
@@ -25,7 +25,9 @@
         <div class="me-3">
             <label for="promptSelect" class="form-label"><strong>Prompt</strong></label>
             <select id="promptSelect" class="form-select" style="width: 200px;">
-
+                {% for prompt in prompts %}
+                    <option value="{{ prompt.prompts_id }}">{{ prompt.title }}</option>
+                {% endfor %}
             </select>
         </div>
 

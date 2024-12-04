@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h3>Confirm Deletion</h3>
+        </div>
+        <div class="card-body text-center">
+            <p>Are you sure you want to delete the prompt with ID {{ prompt.prompts_id }}?</p>
+            <form method="POST">
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a href="{{ url_for('prompt.prompt_overview') }}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

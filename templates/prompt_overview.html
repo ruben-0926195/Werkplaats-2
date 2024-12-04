@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {{ prompt }}
+    <div id="table1" class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3>Prompts</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('prompt.prompt_overview') }}">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead style="background-color: #f8f9fa;">
+                        <tr>
+                            <th>
+                                ID
+                                <input type="text" name="prompts_id" class="form-control form-control-sm mt-1"
+                                       placeholder="Search ID" value="{{ request.args.get('prompts_id', '') }}">
+                            </th>
+                            <th>
+                                Title
+                                <input type="text" name="title" class="form-control form-control-sm mt-1"
+                                       placeholder="Search Title" value="{{ request.args.get('title', '') }}">
+                            </th>
+                            <th>
+                                Prompt
+                                <input type="text" name="prompt" class="form-control form-control-sm mt-1"
+                                       placeholder="Search Prompt" value="{{ request.args.get('prompt', '') }}">
+                            </th>
+                             <th>
+                                Categorized
+                                <input type="text" name="categorized" class="form-control form-control-sm mt-1"
+                                       placeholder="Search Categorized" value="{{ request.args.get('categorized', '') }}">
+                            </th>
+                            <th>
+                                Actions
+                                <div>
+                                    <button type="submit"
+                                            class="btn btn-primary btn-sm me-1">
+                                        <i class="fas fa-filter"></i>
+                                    </button>
+                                    <a href="{{  url_for('prompt.prompt_create') }}" class="btn btn-success btn-sm me-1">
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for prompt in prompts %}
+                            <tr>
+                                <td>
+                                    <a href="{{ url_for('prompt.prompt_show', prompt_id=prompt.prompts_id) }}"
+                                       class="text-decoration-none">
+                                        {{ prompt.prompts_id }}
+                                    </a>
+                                </td>
+                                 <td>{{ prompt.title }}</td>
+                                <td>{{ prompt.prompt }}</td>
+                                 <td>{{ prompt.categorized }}</td>
+                                <td>
+                                    <a href="{{ url_for('prompt.prompt_update', prompt_id=prompt.prompts_id) }}"
+                                       class="btn btn-primary btn-sm me-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ url_for('prompt.prompt_delete', prompt_id=prompt.prompts_id) }}"
+                                       class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <nav aria-label="Table navigation">
+                        <ul class="pagination">
+                            {% if page > 1 %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page - 1 }}&per_page={{ per_page }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+
+                            {% for i in range(1, total_pages + 1) %}
+                            <li class="page-item {% if i == page %}active{% endif %}">
+                                <a class="page-link"
+                                   href="?page={{ i }}&per_page={{ per_page }}">
+                                    {{ i }}
+                                </a>
+                            </li>
+                            {% endfor %}
+
+                            {% if page < total_pages %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page + 1 }}&per_page={{ per_page }}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+

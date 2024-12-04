@@ -38,6 +38,40 @@ def overview():
     return render_template('overview.html',
                            users=users, page=page, per_page=per_page, total_pages=total_pages)
 
+@user_routes.route('/user/overview', methods=['GET', 'POST'])
+def user_overview():
+    data = User()
+
+    page = int(request.args.get('page', 1))  # Default page is 1
+    per_page = int(request.args.get('per_page', 5))  # Default 10 items per page
+
+    # Check if a POST request was made else load users without filters
+    if request.method == "POST":
+        # Access POST data as a MultiDict
+        filters = request.form
+
+        # Store in session
+        session['filters'] = filters
+
+        # Pass filters to the data layer
+        users, total_users = data.get_all_users(page, per_page, filters)
+
+        total_pages = (total_users + per_page - 1) // per_page
+
+        return render_template('user_overview.html',
+                               users=users, page=page, per_page=per_page, total_pages=total_pages)
+
+    # Retrieve filters from session to ensure consistent pagination results
+    filters = session.get('filters', {})
+
+    # Pass filters to the data layer
+    users, total_users = data.get_all_users(page, per_page, filters)
+
+    total_pages = (total_users + per_page - 1) // per_page
+
+    return render_template('user_overview.html',
+                           users=users, page=page, per_page=per_page, total_pages=total_pages)
+
 @user_routes.route('/user/<user_id>')
 def user_show(user_id):
     data = User()
@@ -101,8 +135,19 @@ def user_update(user_id):
     return render_template('user_update.html', user=user)
 
 
-@user_routes.route('/user/delete/<user_id>')
+@user_routes.route('/user/delete/<user_id>', methods=['GET', 'POST'])
 def user_delete(user_id):
-    user_model = User()
-    user_model.delete_user(user_id)
-    return redirect(url_for('user.overview'))
+    data = User()
+
+    # Fetch user by ID
+    user = data.get_single_user(user_id)  # This should return the user object with `user_username` and `user_id`
+
+    if request.method == 'POST':
+        # Handle deletion
+        data.delete_user(user_id)
+        flash("User deleted successfully!", "success")
+        return redirect(url_for('user.overview'))
+
+    # Pass the user object to the confirmation page
+    return render_template('user_delete_modal.html', user=user)
+
