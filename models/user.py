@@ -49,6 +49,27 @@ class User:
 
         return result, total_users
 
+    def check_user_in_db(self, user):
+        self.cursor.execute("SELECT * FROM users WHERE login=?", (user,))
+        data = self.cursor.fetchone()
+        if data:
+            return True
+        else:
+            return False
+
+    def check_pasw_in_db(self, password):
+        self.cursor.execute("SELECT * FROM users WHERE password=?", (password,))
+        data = self.cursor.fetchone()
+        if data:
+            return True
+        else:
+            return False
+
+    def get_user_by_name(self, login):
+        self.cursor.execute("SELECT * FROM users WHERE login=?", (login,))
+        data = self.cursor.fetchone()
+        return data
+
     def get_single_user(self, user_id):
         self.cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,))
         user = self.cursor.fetchone()
