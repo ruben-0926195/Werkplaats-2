@@ -51,16 +51,16 @@ class User:
 
     def check_user_in_db(self, user):
         self.cursor.execute("SELECT * FROM users WHERE login=?", (user,))
-        user = self.cursor.fetchone()
-        if user:
+        data = self.cursor.fetchone()
+        if data:
             return True
         else:
             return False
 
     def check_pasw_in_db(self, password):
         self.cursor.execute("SELECT * FROM users WHERE password=?", (password,))
-        user = self.cursor.fetchone()
-        if user:
+        data = self.cursor.fetchone()
+        if data:
             return True
         else:
             return False

@@ -11,9 +11,9 @@ def login():
         user = User()
 
         username_check = user.check_user_in_db(username)
-        password_check = user.check_user_in_db(password)
+        password_check = user.check_pasw_in_db(password)
         if username_check and password_check:
-            return redirect(url_for('question.overview'))
+            return redirect(url_for('question.question_overview'))
         else:
             return render_template('login.html')
 
