@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, session
 
 from models.question_extraction import process_json
-from models.vragen_Models import Questions
+from models.question import Questions
 from models.prompt import Prompt
 
 question_routes = Blueprint('question', __name__)
@@ -12,13 +12,46 @@ def question_indexing():
     return "question_indexing"
 
 
-@question_routes.route('/question/overview')
+# @question_routes.route('/question/overview')
+# def question_overview_old():
+#     data = Questions()
+#     questions = data.get_all_questions()
+#
+#     return render_template("question_overview.html", questions=questions)
+
+@question_routes.route('/question/overview', methods=['GET', 'POST'])
 def question_overview():
     data = Questions()
-    questions = data.get_all_questions()
 
-    return render_template("question_overview.html", questions=questions)
+    page = int(request.args.get('page', 1))  # Default page is 1
+    per_page = int(request.args.get('per_page', 5))  # Default 10 items per page
 
+    # Check if a POST request was made else load users without filters
+    if request.method == "POST":
+        # Access POST data as a MultiDict
+        filters = request.form
+
+        # Store in session
+        session['filters'] = filters
+
+        # Pass filters to the data layer
+        questions, total_questions = data.get_all_questions(page, per_page, filters)
+
+        total_pages = (total_questions + per_page - 1) // per_page
+
+        return render_template('question_overview.html',
+                               questions=questions, page=page, per_page=per_page, total_pages=total_pages)
+
+    # Retrieve filters from session to ensure consistent pagination results
+    filters = session.get('filters', {})
+
+    # Pass filters to the data layer
+    questions, total_questions = data.get_all_questions(page, per_page, filters)
+
+    total_pages = (total_questions + per_page - 1) // per_page
+
+    return render_template('question_overview.html',
+                           questions=questions, page=page, per_page=per_page, total_pages=total_pages)
 
 @question_routes.route('/question/<question_id>')
 def question_show(question_id):

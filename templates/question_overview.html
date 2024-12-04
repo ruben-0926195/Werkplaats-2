@@ -1,39 +1,106 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="table1" class="card mb-4">
-    <div class="card-header">
-        <h3>Users</h3>
-    </div>
-    <div class="card-body">
-        <table class="table table-striped table-bordered">
-            <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Vraag</th>
-                <th>Bloom</th>
-                <th>RTTI</th>
-                <th>Acties</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for question in questions %}
-            <tr>
-                <td>{{question.questions_id}}</td>
-                <td>{{question.question}}</td>
-                <td>{{question.taxonomy_bloom}}</td>
-                <td>{{question.rtti}}</td>
-                <td>
-                  <a href="{{ url_for('question.question_show', question_id=question.questions_id) }}" class="btn btn-primary btn-sm">
-                            Indexeren
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
+    <div id="table1" class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3>Questions</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('question.question_overview') }}">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead style="background-color: #f8f9fa;">
+                        <tr>
+                            <th>
+                                ID
+                                <input type="text" name="prompts_id" class="form-control form-control-sm mt-1"
+                                       placeholder="Search ID" value="{{ request.args.get('question_id', '') }}">
+                            </th>
+                            <th>
+                                Question
+                                <input type="text" name="title" class="form-control form-control-sm mt-1"
+                                       placeholder="Search Question" value="{{ request.args.get('question', '') }}">
+                            </th>
+                            <th>
+                                Subject
+                                <input type="text" name="prompt" class="form-control form-control-sm mt-1"
+                                       placeholder="Search Subject" value="{{ request.args.get('vak', '') }}">
+                            </th>
+                            <th>
+                                Actions
+                                <div>
+                                    <button type="submit"
+                                            class="btn btn-primary btn-sm me-1">
+                                        <i class="fas fa-filter"></i>
+                                    </button>
+                                    <a href="" class="btn btn-success btn-sm me-1">
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for question in questions %}
+                            <tr>
+                                <td>
+                                    <a href=""
+                                       class="text-decoration-none">
+                                        {{ question.questions_id }}
+                                    </a>
+                                </td>
+                                <td>{{ question.question }}</td>
+                                <td>{{ question.vak }}</td>
+                                <td>
+                                    <a href=""
+                                       class="btn btn-primary btn-sm me-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href=""
+                                       class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <nav aria-label="Table navigation">
+                        <ul class="pagination">
+                            {% if page > 1 %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page - 1 }}&per_page={{ per_page }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
 
+                            {% for i in range(1, total_pages + 1) %}
+                            <li class="page-item {% if i == page %}active{% endif %}">
+                                <a class="page-link"
+                                   href="?page={{ i }}&per_page={{ per_page }}">
+                                    {{ i }}
+                                </a>
+                            </li>
+                            {% endfor %}
+
+                            {% if page < total_pages %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page + 1 }}&per_page={{ per_page }}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}
+

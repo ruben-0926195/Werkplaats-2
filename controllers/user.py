@@ -4,6 +4,7 @@ from lib.helpers import hash_password
 
 user_routes = Blueprint('user', __name__)
 
+
 @user_routes.route('/', methods=['GET', 'POST'])
 def overview():
     data = User()
@@ -37,6 +38,7 @@ def overview():
 
     return render_template('overview.html',
                            users=users, page=page, per_page=per_page, total_pages=total_pages)
+
 
 @user_routes.route('/user/overview', methods=['GET', 'POST'])
 def user_overview():
@@ -72,11 +74,13 @@ def user_overview():
     return render_template('user_overview.html',
                            users=users, page=page, per_page=per_page, total_pages=total_pages)
 
+
 @user_routes.route('/user/<user_id>')
 def user_show(user_id):
     data = User()
     user = data.get_single_user(user_id)
     return render_template('user_show.html', user=user)
+
 
 @user_routes.route('/user/create', methods=['GET', 'POST'])
 def user_create():
@@ -104,6 +108,7 @@ def user_create():
 
     return render_template('user_create.html')
 
+
 @user_routes.route('/user/update/<user_id>', methods=['GET', 'POST'])
 def user_update(user_id):
     user_model = User()
@@ -119,7 +124,7 @@ def user_update(user_id):
         user_model.update_user(user_id, login, hashed_password, display_name, is_admin)
 
         # Optionally, add a success message
-        flash("User updated successfully!", "success")
+        flash("User updated successfully!", "update")
 
         # Close the connection after updating the user
         user_model.close_connection()
@@ -145,9 +150,8 @@ def user_delete(user_id):
     if request.method == 'POST':
         # Handle deletion
         data.delete_user(user_id)
-        flash("User deleted successfully!", "success")
+        flash("User deleted successfully!", "delete")
         return redirect(url_for('user.overview'))
 
     # Pass the user object to the confirmation page
     return render_template('user_delete_modal.html', user=user)
-
