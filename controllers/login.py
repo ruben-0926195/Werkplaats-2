@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from models.user import User
+from lib.helpers import hash_password
 
 login_routes = Blueprint('login', __name__)
 
@@ -12,9 +13,9 @@ def login():
             username = request.form.get('username')
             password = request.form.get('password')
             user = User()
-
+            hashed_password = hash_password(password)
             username_check = user.check_user_in_db(username)
-            password_check = user.check_pasw_in_db(password)
+            password_check = user.check_pasw_in_db(hashed_password)
             if username_check and password_check:
 
                 session['logged_in'] = True
