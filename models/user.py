@@ -65,6 +65,10 @@ class User:
         else:
             return False
 
+    def get_user_by_name(self, login):
+        self.cursor.execute("SELECT * FROM users WHERE login=?", (login,))
+        data = self.cursor.fetchone()
+        return data
 
     def get_single_user(self, user_id):
         self.cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,))
