@@ -7,7 +7,7 @@ user_routes = Blueprint('user', __name__)
 
 @user_routes.route('/', methods=['GET', 'POST'])
 def overview():
-    if "is_login" not in session:
+    if "logged_in" not in session:
         return redirect(url_for('login.login'))
 
     data = User()
@@ -45,7 +45,7 @@ def overview():
 
 @user_routes.route('/user/overview', methods=['GET', 'POST'])
 def user_overview():
-    if "is_login" not in session:
+    if "logged_in" not in session:
         return redirect(url_for('login.login'))
     data = User()
 
@@ -82,7 +82,7 @@ def user_overview():
 
 @user_routes.route('/user/<user_id>')
 def user_show(user_id):
-    if "is_login" not in session:
+    if "logged_in" not in session:
         return redirect(url_for('login.login'))
     data = User()
     user = data.get_single_user(user_id)
@@ -91,7 +91,7 @@ def user_show(user_id):
 
 @user_routes.route('/user/create', methods=['GET', 'POST'])
 def user_create():
-    if "is_login" not in session:
+    if "logged_in" not in session:
         return redirect(url_for('login.login'))
     if request.method == 'POST':
         # Retrieve form data
@@ -120,7 +120,7 @@ def user_create():
 
 @user_routes.route('/user/update/<user_id>', methods=['GET', 'POST'])
 def user_update(user_id):
-    if "is_login" not in session:
+    if "logged_in" not in session:
         return redirect(url_for('login.login'))
     user_model = User()
 
@@ -153,7 +153,7 @@ def user_update(user_id):
 
 @user_routes.route('/user/delete/<user_id>', methods=['GET', 'POST'])
 def user_delete(user_id):
-    if "is_login" not in session:
+    if "logged_in" not in session:
         return redirect(url_for('login.login'))
     data = User()
 
