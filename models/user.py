@@ -55,7 +55,6 @@ class User:
         if data:
             self.cursor.execute("SELECT password FROM users WHERE login=?", (user,))
             result = self.cursor.fetchone()
-            print(result['password'], password, sep=" |  ")
             if result['password'] == password:
                 return True
         else:
