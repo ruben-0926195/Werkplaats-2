@@ -14,9 +14,9 @@ def login():
             password = request.form.get('password')
             user = User()
             hashed_password = hash_password(password)
-            username_check = user.check_user_in_db(username)
-            password_check = user.check_pasw_in_db(hashed_password)
-            if username_check and password_check:
+            is_checked = user.check_pass(username, hashed_password)
+
+            if is_checked:
 
                 session['logged_in'] = True
                 session['username'] = username

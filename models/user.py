@@ -49,19 +49,15 @@ class User:
 
         return result, total_users
 
-    def check_user_in_db(self, user):
+    def check_pass(self, user, password):
         self.cursor.execute("SELECT * FROM users WHERE login=?", (user,))
         data = self.cursor.fetchone()
         if data:
-            return True
-        else:
-            return False
-
-    def check_pasw_in_db(self, password):
-        self.cursor.execute("SELECT * FROM users WHERE password=?", (password,))
-        data = self.cursor.fetchone()
-        if data:
-            return True
+            self.cursor.execute("SELECT password FROM users WHERE login=?", (user,))
+            result = self.cursor.fetchone()
+            print(result['password'], password, sep=" |  ")
+            if result['password'] == password:
+                return True
         else:
             return False
 
