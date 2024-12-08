@@ -44,14 +44,15 @@
                         {% for question in questions %}
                             <tr>
                                 <td>
-                                    <a href=""
-                                       class="text-decoration-none">
-                                        {{ question.questions_id }}
-                                    </a>
+                                    {{ question.questions_id }}
                                 </td>
                                 <td>{{ question.question }}</td>
                                 <td>{{ question.vak }}</td>
                                 <td>
+                                     <a href="{{ url_for('question.question_show', question_id=question.questions_id) }}"
+                                       class="btn btn-secondary btn-sm me-1">
+                                        <i class="fas fa-cog"></i>
+                                    </a>
                                     <a href=""
                                        class="btn btn-primary btn-sm me-1">
                                         <i class="fas fa-edit"></i>
