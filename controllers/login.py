@@ -23,9 +23,9 @@ def login():
                 session['is_admin'] = user.get_user_by_name(username)['is_admin']
                 return redirect(url_for('question.question_overview'))
             else:
-                return render_template('login.html')
+                return render_template('login_old.html')
 
-        return render_template('login.html')
+        return render_template('login_old.html')
 
 @login_routes.route('/logout')
 def logout():
