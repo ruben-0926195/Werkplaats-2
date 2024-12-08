@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for
+from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash
 
 from models.question_extraction import process_json
 from models.question import Questions
@@ -72,6 +72,24 @@ def question_show(question_id):
 
     return render_template('question_show.html', question=question, prompts=prompts)
 
+@question_routes.route('/question/delete/<question_id>', methods=['GET', 'POST'])
+def question_delete(question_id):
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
+    if session["is_admin"] == 0:
+        return redirect(url_for('question.question_overview'))
+
+    data = Questions()
+
+    question = data.get_single_question(question_id)
+
+    if request.method == 'POST':
+        data.delete_question(question_id)
+        flash("Question deleted successfully!", "delete")
+        return redirect(url_for('question.question_overview'))
+
+    return render_template('question_delete_modal.html', question=question)
 
 @question_routes.route('/question/upload')
 def upload_page():
