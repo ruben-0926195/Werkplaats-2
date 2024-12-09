@@ -7,6 +7,13 @@ user_routes = Blueprint('user', __name__)
 
 @user_routes.route('/', methods=['GET', 'POST'])
 def overview():
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
+    if session["is_admin"] == 0:
+        return redirect(url_for('question.question_overview'))
+
+
     data = User()
 
     page = int(request.args.get('page', 1))  # Default page is 1
@@ -42,6 +49,12 @@ def overview():
 
 @user_routes.route('/user/overview', methods=['GET', 'POST'])
 def user_overview():
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
+    if session["is_admin"] == 0:
+        return redirect(url_for('question.question_overview'))
+
     data = User()
 
     page = int(request.args.get('page', 1))  # Default page is 1
@@ -77,6 +90,12 @@ def user_overview():
 
 @user_routes.route('/user/<user_id>')
 def user_show(user_id):
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
+    if session["is_admin"] == 0:
+        return redirect(url_for('question.question_overview'))
+
     data = User()
     user = data.get_single_user(user_id)
     return render_template('user_show.html', user=user)
@@ -84,6 +103,8 @@ def user_show(user_id):
 
 @user_routes.route('/user/create', methods=['GET', 'POST'])
 def user_create():
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
     if request.method == 'POST':
         # Retrieve form data
         login = request.form.get('login')
@@ -111,6 +132,12 @@ def user_create():
 
 @user_routes.route('/user/update/<user_id>', methods=['GET', 'POST'])
 def user_update(user_id):
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
+    if session["is_admin"] == 0:
+        return redirect(url_for('question.question_overview'))
+
     user_model = User()
 
     if request.method == 'POST':
@@ -142,6 +169,12 @@ def user_update(user_id):
 
 @user_routes.route('/user/delete/<user_id>', methods=['GET', 'POST'])
 def user_delete(user_id):
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
+    if session["is_admin"] == 0:
+        return redirect(url_for('question.question_overview'))
+
     data = User()
 
     # Fetch user by ID

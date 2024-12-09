@@ -49,6 +49,22 @@ class User:
 
         return result, total_users
 
+    def check_pass(self, user, password):
+        self.cursor.execute("SELECT * FROM users WHERE login=?", (user,))
+        data = self.cursor.fetchone()
+        if data:
+            self.cursor.execute("SELECT password FROM users WHERE login=?", (user,))
+            result = self.cursor.fetchone()
+            if result['password'] == password:
+                return True
+        else:
+            return False
+
+    def get_user_by_name(self, login):
+        self.cursor.execute("SELECT * FROM users WHERE login=?", (login,))
+        data = self.cursor.fetchone()
+        return data
+
     def get_single_user(self, user_id):
         self.cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,))
         user = self.cursor.fetchone()

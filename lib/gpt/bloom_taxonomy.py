@@ -128,4 +128,4 @@ if __name__ == "__main__":
     #    "niveau": "niveau van Bloom",
     #    "uitleg": "uitleg waarom dit niveau van toepassing is"
     # }
-    print(get_bloom_category(question, prompt, "rac_test"))
+    print(get_bloom_category(question, prompt, "dry_run"))

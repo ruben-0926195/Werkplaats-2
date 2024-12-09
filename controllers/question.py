@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, session
+from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash
 
 from models.question_extraction import process_json
 from models.question import Questions
@@ -9,6 +9,9 @@ question_routes = Blueprint('question', __name__)
 
 @question_routes.route('/question/question_indexing')
 def question_indexing():
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
     return "question_indexing"
 
 
@@ -21,6 +24,9 @@ def question_indexing():
 
 @question_routes.route('/question/overview', methods=['GET', 'POST'])
 def question_overview():
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
     data = Questions()
 
     page = int(request.args.get('page', 1))  # Default page is 1
@@ -55,6 +61,9 @@ def question_overview():
 
 @question_routes.route('/question/<question_id>')
 def question_show(question_id):
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
     data = Questions()
     question = data.get_single_question(question_id)
 
@@ -63,9 +72,29 @@ def question_show(question_id):
 
     return render_template('question_show.html', question=question, prompts=prompts)
 
+@question_routes.route('/question/delete/<question_id>', methods=['GET', 'POST'])
+def question_delete(question_id):
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
+    if session["is_admin"] == 0:
+        return redirect(url_for('question.question_overview'))
+
+    data = Questions()
+
+    question = data.get_single_question(question_id)
+
+    if request.method == 'POST':
+        data.delete_question(question_id)
+        flash("Question deleted successfully!", "delete")
+        return redirect(url_for('question.question_overview'))
+
+    return render_template('question_delete_modal.html', question=question)
 
 @question_routes.route('/question/upload')
 def upload_page():
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
     return render_template('upload.html')
 
 
