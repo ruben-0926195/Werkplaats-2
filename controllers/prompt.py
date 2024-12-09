@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, flash, url_for, session
 from models.prompt import Prompt
 
-
 prompt_routes = Blueprint('prompt', __name__)
+
 
 @prompt_routes.route('/prompt/overview', methods=['GET', 'POST'])
 def prompt_overview():
@@ -41,11 +41,13 @@ def prompt_overview():
     return render_template('prompt_overview.html',
                            prompts=prompts, page=page, per_page=per_page, total_pages=total_pages)
 
+
 @prompt_routes.route('/prompt/<prompt_id>')
 def prompt_show(prompt_id):
     data = Prompt()
     prompt = data.get_single_prompt(prompt_id)
     return render_template('prompt_show.html', prompt=prompt)
+
 
 @prompt_routes.route('/prompt/create', methods=['GET', 'POST'])
 def prompt_create():
@@ -58,12 +60,14 @@ def prompt_create():
 
         # Redirect after successful form submission
         if new_prompt:
+            flash("prompt created successfully!", "success")
             return redirect(url_for('prompt.prompt_overview'))
         else:
-            message = "An error occurred. Please try again."
+            flash("An error occurred. Please try again.", "danger")
             return redirect(url_for('prompt.prompt_create'))
 
     return render_template('prompt_create.html')
+
 
 @prompt_routes.route('/prompt/update/<prompt_id>', methods=['GET', 'POST'])
 def prompt_update(prompt_id):
@@ -75,11 +79,13 @@ def prompt_update(prompt_id):
 
         prompt_model.update_prompt(prompt_id, title, prompt)
 
+        flash("Prompt updated successfully!", "update")
         return redirect(url_for('prompt.prompt_overview'))
 
     prompt = prompt_model.get_single_prompt(prompt_id)
 
     return render_template('prompt_update.html', prompt=prompt)
+
 
 @prompt_routes.route('/prompt/delete/<prompt_id>', methods=['GET', 'POST'])
 def prompt_delete(prompt_id):
@@ -90,6 +96,7 @@ def prompt_delete(prompt_id):
     if request.method == 'POST':
         data.delete_prompt(prompt_id)
         message = "User deleted successfully!", "success"
+        flash("Prompt deleted successfully!", "delete")
         return redirect(url_for('prompt.prompt_overview'))
 
     # Pass the user object to the confirmation page

@@ -1,6 +1,7 @@
 from datetime import date
 from models.database import Database
 
+
 class Prompt:
     def __init__(self):
         database = Database('./databases/database.db')
@@ -48,8 +49,8 @@ class Prompt:
         result = self.cursor.execute("SELECT * FROM prompts").fetchall()
         return result
 
-    def create_prompt(self, title, prompt, user_id = 3, curr_date = date.today(),
-                      categorized = 0, correct = 0, incorrect = 0):
+    def create_prompt(self, title, prompt, user_id=3, curr_date=date.today(),
+                      categorized=0, correct=0, incorrect=0):
         self.cursor.execute(
             "INSERT into prompts (user_id, title, prompt, date, categorized, correct, incorrect) "
             "VALUES (?, ?, ?, ?, ?, ?, ?)",

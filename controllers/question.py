@@ -59,6 +59,7 @@ def question_overview():
     return render_template('question_overview.html',
                            questions=questions, page=page, per_page=per_page, total_pages=total_pages)
 
+
 @question_routes.route('/question/<question_id>')
 def question_show(question_id):
     if "logged_in" not in session:
@@ -71,6 +72,7 @@ def question_show(question_id):
     prompts = prompt.get_prompts()
 
     return render_template('question_show.html', question=question, prompts=prompts)
+
 
 @question_routes.route('/question/delete/<question_id>', methods=['GET', 'POST'])
 def question_delete(question_id):
@@ -91,6 +93,7 @@ def question_delete(question_id):
 
     return render_template('question_delete_modal.html', question=question)
 
+
 @question_routes.route('/question/upload')
 def upload_page():
     if "logged_in" not in session:
@@ -104,9 +107,7 @@ def upload_json():
     if not file or file.filename == '':
         return jsonify({"error": "No file selected."}), 400
 
-
     result = process_json(file)
-
 
     if "error" in result:
         return render_template('upload.html', result=result)
