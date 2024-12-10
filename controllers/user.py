@@ -122,7 +122,7 @@ def user_create():
         # Redirect after successful form submission
         if new_user:
             flash("User registered successfully!", "success")
-            return redirect(url_for('user.overview'))
+            return redirect(url_for('user.user_overview'))
         else:
             flash("An error occurred. Please try again.", "danger")
             return redirect(url_for('user.user_create'))
