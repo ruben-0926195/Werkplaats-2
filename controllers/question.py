@@ -6,6 +6,8 @@ from models.prompt import Prompt
 
 question_routes = Blueprint('question', __name__)
 
+def export_questions():
+    pass
 
 @question_routes.route('/question/question_indexing')
 def question_indexing():
