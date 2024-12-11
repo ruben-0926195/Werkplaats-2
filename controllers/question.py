@@ -16,7 +16,9 @@ def create_export_file():
     with open(file_path, "w") as f:
         for question in all_questions:
             f.write(json.dumps(dict(question))+",")
+            data.delete_question(question["questions_id"])
         f.close()
+
 
 @question_routes.route('/question/download')
 def export_questions():
