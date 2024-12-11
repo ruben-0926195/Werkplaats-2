@@ -58,6 +58,11 @@ class Questions:
         self.con.commit()
         return True
 
+    def get_handeld_questions(self):
+        self.cursor.execute("SELECT * FROM questions WHERE taxonomy_bloom IS NOT NULL OR rtti IS NOT NULL")
+        questions = self.cursor.fetchall()
+        return questions
+
     def update_questions(self, questions_id, prompts_id, users_id, question,
                         taxonomy_bloom, rtti, tax_bloom_changed,rtti_changed):
         try:

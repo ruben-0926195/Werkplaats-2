@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash, send_file
+import json
 
 from models.question_extraction import process_json
 from models.question import Questions
@@ -7,9 +8,20 @@ from models.prompt import Prompt
 question_routes = Blueprint('question', __name__)
 
 
+def create_export_file():
+    data = Questions()
+    all_questions = data.get_handeld_questions()
+    file_path = "export_files/questions_export.json"
+
+    with open(file_path, "w") as f:
+        for question in all_questions:
+            f.write(json.dumps(dict(question))+",")
+        f.close()
+
 @question_routes.route('/question/download')
 def export_questions():
-    file_path = "docs/images/bijlage_2_1_inloggen.png"
+    create_export_file()
+    file_path = "export_files/questions_export.json"
     return send_file(file_path, as_attachment=True)
 
 
