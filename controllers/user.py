@@ -156,7 +156,7 @@ def user_update(user_id):
         # Close the connection after updating the user
         user_model.close_connection()
 
-        return redirect(url_for('user.overview'))
+        return redirect(url_for('user.user_overview'))
 
     # For GET request: Show the form pre-filled with user data
     user = user_model.get_single_user(user_id)
@@ -184,7 +184,7 @@ def user_delete(user_id):
         # Handle deletion
         data.delete_user(user_id)
         flash("User deleted successfully!", "delete")
-        return redirect(url_for('user.overview'))
+        return redirect(url_for('user.user_overview'))
 
     # Pass the user object to the confirmation page
     return render_template('user_delete_modal.html', user=user)
