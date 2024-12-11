@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash
+from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash, send_file
 
 from models.question_extraction import process_json
 from models.question import Questions
@@ -6,8 +6,13 @@ from models.prompt import Prompt
 
 question_routes = Blueprint('question', __name__)
 
+
+@question_routes.route('/question/download')
 def export_questions():
-    pass
+    file_path = "docs/images/bijlage_2_1_inloggen.png"
+    return send_file(file_path, as_attachment=True)
+
+
 
 @question_routes.route('/question/question_indexing')
 def question_indexing():
