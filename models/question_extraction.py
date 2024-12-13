@@ -1,54 +1,58 @@
 import json
 import os
+from flask import Flask, render_template, request
 from models.database import Database
+import logging
 
-db_path = 'databases/database.db'
+# Configure logging
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Flask app setup
+app = Flask(__name__)
+
+# Database path
+DB_PATH = os.path.abspath('databases/database.db')  # Use an absolute path for reliability
 
 def process_json(file):
-    if not os.path.exists(db_path):
-        return {"error": f"Database file {db_path} does not exist."}
 
-    if not file or file.filename == '':
-        return {"error": "No file selected."}
-
-    if not file.filename.endswith('.json'):
-        return {"error": "Uploaded file is not a JSON file."}
-
+    # Load the JSON file
     try:
-
         json_data = json.load(file)
     except json.JSONDecodeError as e:
-        return {"error": f"Invalid JSON format: {e}"}
+        return {"error": f"ongeldige JSON format: {e}"}
 
-
-    print(f"Loaded JSON Data: {json_data}")
+    # Validate JSON content
+    if isinstance(json_data, dict):
+        json_data = [json_data]  # Wrap in a list for consistent processing
 
     if not json_data:
-        return {"error": "Uploaded JSON is empty or invalid."}
+        return {"error": "Uploaded JSON is leeg of ongelding."}
 
-
-    db = Database(db_path)
+    # Initialize database connection
+    db = Database(DB_PATH)
     cursor, connection = db.connect_db()
 
-    try:
+    error_messages = []
 
+    try:
         for question in json_data:
             try:
-
-                question_id = question.get('question_id', None)
-                question_text = question.get('question', None)
+                # Extract question data
+                question_id = question.get('question_id')
+                question_text = question.get('question')
                 answer = question.get('answer', '')
-                vak = question.get('vak', '')
-                onderwijsniveau = question.get('onderwijsniveau', '')
-                leerjaar = question.get('leerjaar', None)
-                question_index = question.get('question_index', None)
-                taxonomy_bloom = question.get('taxonomy_bloom', None)
-                rtti = question.get('rtti', None)
+                subject = question.get('vak', '')
+                educational_level = question.get('onderwijsniveau', '')
+                grade = question.get('leerjaar')
+                question_index = question.get('question_index')
+                taxonomy_bloom = question.get('taxonomy_bloom')
+                rtti = question.get('rtti')
 
-
+                # Validate required fields
                 if not question_id or not question_text:
                     raise ValueError("Missing required fields 'question_id' or 'question'.")
 
+                # Insert into database
                 sql = '''
                     INSERT INTO questions 
                     (questions_id, prompts_id, users_id, question, answer, vak, onderwijsniveau, leerjaar, question_index, taxonomy_bloom, rtti) 
@@ -60,24 +64,34 @@ def process_json(file):
                     '',           # users_id
                     question_text,
                     answer,
-                    vak,
-                    onderwijsniveau,
-                    leerjaar,
+                    subject,
+                    educational_level,
+                    grade,
                     question_index,
                     taxonomy_bloom,
                     rtti
                 )
                 cursor.execute(sql, val)
-            except Exception as e:
 
-                print(f"Error inserting question: {e}")
+            except Exception:
+                # Log individual question errors
+                error_messages.append(f"Error id is niet uniek {question.get('question_id')}")
                 continue
 
+        # Commit all changes after processing
         connection.commit()
+
     except Exception as e:
-        print(f"Database insertion error: {e}")
+        # Handle general database errors
         return {"error": f"Database insertion error: {e}"}
+
     finally:
+        # Ensure the database connection is properly closed
         db.close_connection()
 
-    return {"success": "JSON data successfully uploaded and inserted into the database."}
+    # Return errors if any
+    if error_messages:
+        return {"error": "\n".join(error_messages)}
+
+    # Return success message if no errors occurred
+    return {"success": "JSON file is geüpload."}
