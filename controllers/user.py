@@ -13,7 +13,8 @@ def overview():
     if session["is_admin"] == 0:
         return redirect(url_for('question.question_overview'))
 
-    return render_template('overview.html',)
+    return render_template('overview.html', )
+
 
 @user_routes.route('/user/overview', methods=['GET', 'POST'])
 def user_overview():

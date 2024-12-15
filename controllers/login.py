@@ -4,6 +4,7 @@ from lib.helpers import hash_password
 
 login_routes = Blueprint('login', __name__)
 
+
 @login_routes.route('/login', methods=['GET', 'POST'])
 def login():
     if "logged_in" in session:
@@ -27,6 +28,7 @@ def login():
 
         return render_template('login.html')
 
+
 @login_routes.route('/logout')
 def logout():
     session.pop('logged_in', False)
@@ -34,4 +36,3 @@ def logout():
     session.pop('is_admin', None)
     session.clear()
     return redirect(url_for('login.login'))
-

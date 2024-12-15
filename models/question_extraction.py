@@ -13,8 +13,8 @@ app = Flask(__name__)
 # Database path
 DB_PATH = os.path.abspath('databases/database.db')  # Use an absolute path for reliability
 
-def process_json(file):
 
+def process_json(file):
     # Load the JSON file
     try:
         json_data = json.load(file)
@@ -60,8 +60,8 @@ def process_json(file):
                 '''
                 val = (
                     question_id,  # questions_id
-                    0,            # prompts_id
-                    '',           # users_id
+                    0,  # prompts_id
+                    '',  # users_id
                     question_text,
                     answer,
                     subject,
