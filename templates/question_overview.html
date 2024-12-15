@@ -29,20 +29,31 @@
                                        placeholder="Search Subject" value="{{ request.args.get('vak', '') }}">
                             </th>
                             <th>
-                                Actions
-                                <div>
-                                    <a href="{{ url_for('question.upload_page') }}"
-                                       class="btn btn-secondary btn-sm me-1">
-                                        <i class="fas fa-upload"></i>
-                                    </a>
-                                    <button type="submit"
-                                            class="btn btn-primary btn-sm me-1">
-                                        <i class="fas fa-filter"></i>
-                                    </button>
-                                    <a href="" class="btn btn-success btn-sm me-1">
-                                        <i class="fas fa-plus"></i>
-                                    </a>
-                                </div>
+                               <span style="display: block">Actions</span>
+                               <div class="dropdown me-1" style="display: inline-block;">
+    <button class="btn btn-secondary btn-sm" type="button"
+            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-exchange-alt"></i>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li>
+            <a class="dropdown-item" href="{{ url_for('question.upload_page') }}">
+                <i class="fas fa-upload me-2"></i> Upload
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{{ url_for('question.export_questions') }}">
+                <i class="fas fa-share-square me-2"></i> Export
+            </a>
+        </li>
+    </ul>
+</div>
+                                <button type="submit" class="btn btn-primary btn-sm me-1">
+                                    <i class="fas fa-filter"></i>
+                                </button>
+                                <a href="" class="btn btn-success btn-sm me-1">
+                                    <i class="fas fa-plus"></i>
+                                </a>
                             </th>
                         </tr>
                         </thead>
@@ -115,9 +126,6 @@
                             {% endif %}
                         </ul>
                     </nav>
-                    <div>
-                        <a href="{{ url_for('question.export_questions') }}">Export Question</a>
-                    </div>
                 </div>
             </form>
         </div>
