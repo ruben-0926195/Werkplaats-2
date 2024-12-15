@@ -9,20 +9,20 @@
             <h3>Prompts</h3>
         </div>
 
-           {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <div class="container mt-2">
-            {% for category, message in messages %}
-                <div class="alert
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="container mt-2">
+                    {% for category, message in messages %}
+                        <div class="alert
                     {% if category == 'success' %}alert-success{% elif category == 'update' %}alert-primary{% elif category == 'delete' %}alert-danger{% endif %}
                     alert-dismissible fade show p-3" style="margin-bottom: 0;" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endwith %}
+            {% endif %}
+        {% endwith %}
 
         <div class="card-body">
             <form method="POST" action="{{ url_for('prompt.prompt_overview') }}">
@@ -45,10 +45,11 @@
                                 <input type="text" name="prompt" class="form-control form-control-sm mt-1"
                                        placeholder="Search Prompt" value="{{ request.args.get('prompt', '') }}">
                             </th>
-                             <th>
+                            <th>
                                 Categorized
                                 <input type="text" name="categorized" class="form-control form-control-sm mt-1"
-                                       placeholder="Search Categorized" value="{{ request.args.get('categorized', '') }}">
+                                       placeholder="Search Categorized"
+                                       value="{{ request.args.get('categorized', '') }}">
                             </th>
                             <th>
                                 Actions
@@ -57,7 +58,7 @@
                                             class="btn btn-primary btn-sm me-1">
                                         <i class="fas fa-filter"></i>
                                     </button>
-                                    <a href="{{  url_for('prompt.prompt_create') }}" class="btn btn-success btn-sm me-1">
+                                    <a href="{{ url_for('prompt.prompt_create') }}" class="btn btn-success btn-sm me-1">
                                         <i class="fas fa-plus"></i>
                                     </a>
                                 </div>
@@ -73,9 +74,9 @@
                                         {{ prompt.prompts_id }}
                                     </a>
                                 </td>
-                                 <td>{{ prompt.title }}</td>
+                                <td>{{ prompt.title }}</td>
                                 <td>{{ prompt.prompt }}</td>
-                                 <td>{{ prompt.categorized }}</td>
+                                <td>{{ prompt.categorized }}</td>
                                 <td>
                                     <a href="{{ url_for('prompt.prompt_update', prompt_id=prompt.prompts_id) }}"
                                        class="btn btn-primary btn-sm me-1">
@@ -93,32 +94,43 @@
                     <nav aria-label="Table navigation">
                         <ul class="pagination">
                             {% if page > 1 %}
-                            <li class="page-item">
-                                <a class="page-link"
-                                   href="?page={{ page - 1 }}&per_page={{ per_page }}"
-                                   aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1&per_page={{ per_page }}" aria-label="First">
+                                        <span>&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page={{ page - 1 }}&per_page={{ per_page }}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">‹</span>
+                                    </a>
+                                </li>
                             {% endif %}
 
                             {% for i in range(1, total_pages + 1) %}
-                            <li class="page-item {% if i == page %}active{% endif %}">
-                                <a class="page-link"
-                                   href="?page={{ i }}&per_page={{ per_page }}">
-                                    {{ i }}
-                                </a>
-                            </li>
+                                <li class="page-item {% if i == page %}active{% endif %}">
+                                    <a class="page-link"
+                                       href="?page={{ i }}&per_page={{ per_page }}">
+                                        {{ i }}
+                                    </a>
+                                </li>
                             {% endfor %}
 
                             {% if page < total_pages %}
-                            <li class="page-item">
-                                <a class="page-link"
-                                   href="?page={{ page + 1 }}&per_page={{ per_page }}"
-                                   aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page={{ page + 1 }}&per_page={{ per_page }}"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">›</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ total_pages }}&per_page={{ per_page }}"
+                                       aria-label="Last">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
                             {% endif %}
                         </ul>
                     </nav>

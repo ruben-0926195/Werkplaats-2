@@ -9,19 +9,19 @@
         </div>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <div class="container mt-2">
-            {% for category, message in messages %}
-                <div class="alert
+            {% if messages %}
+                <div class="container mt-2">
+                    {% for category, message in messages %}
+                        <div class="alert
                     {% if category == 'success' %}alert-success{% elif category == 'update' %}alert-primary{% elif category == 'delete' %}alert-danger{% endif %}
                     alert-dismissible fade show p-3" style="margin-bottom: 0;" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endwith %}
+            {% endif %}
+        {% endwith %}
 
         <div class="card-body">
             <form method="POST" action="{{ url_for('user.overview') }}">
@@ -93,10 +93,15 @@
                         <ul class="pagination">
                             {% if page > 1 %}
                                 <li class="page-item">
+                                    <a class="page-link" href="?page=1&per_page={{ per_page }}" aria-label="First">
+                                        <span>&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
                                     <a class="page-link"
                                        href="?page={{ page - 1 }}&per_page={{ per_page }}"
                                        aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
+                                        <span aria-hidden="true">‹</span>
                                     </a>
                                 </li>
                             {% endif %}
@@ -115,8 +120,13 @@
                                     <a class="page-link"
                                        href="?page={{ page + 1 }}&per_page={{ per_page }}"
                                        aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
+                                        <span aria-hidden="true">›</span>
                                     </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ total_pages }}&per_page={{ per_page }}" aria-label="Last">
+                                    <span aria-hidden="true">&raquo;</span>
+                                     </a>
                                 </li>
                             {% endif %}
                         </ul>
