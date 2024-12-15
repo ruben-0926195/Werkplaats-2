@@ -3,29 +3,30 @@
 {% block title %}Upload JSON File{% endblock %}
 
 {% block content %}
-<h1>Upload JSON File</h1>
-<form action="/question/upload" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px; max-width: 300px;">
-    <label for="file">Select the JSON file to upload:</label>
-    <input type="file" id="file" name="file" accept=".json" required>
-    <button type="submit" class="btn btn-success">Upload</button>
-</form>
+    <h1>Upload JSON File</h1>
+    <form action="/question/upload" method="post" enctype="multipart/form-data"
+          style="display: flex; flex-direction: column; gap: 10px; max-width: 300px;">
+        <label for="file">Select the JSON file to upload:</label>
+        <input type="file" id="file" name="file" accept=".json" required>
+        <button type="submit" class="btn btn-success">Upload</button>
+    </form>
 
-<!-- Display errors or success -->
-{% if result and result.error %}
-<div style="margin-top: 15px; color: red;">
-    <h3>Warning:</h3>
-    <p>{{ result.error }}</p>
-</div>
-{% elif result and result.success %}
-<div style="margin-top: 15px; color: green;">
-    <h3>Success:</h3>
-    <p>{{ result.success }}</p>
-</div>
-{% endif %}
+    <!-- Display errors or success -->
+    {% if result and result.error %}
+        <div style="margin-top: 15px; color: red;">
+            <h3>Warning:</h3>
+            <p>{{ result.error }}</p>
+        </div>
+    {% elif result and result.success %}
+        <div style="margin-top: 15px; color: green;">
+            <h3>Success:</h3>
+            <p>{{ result.success }}</p>
+        </div>
+    {% endif %}
 
-<div style="margin-top: 15px;">
-    <a href="{{ url_for('question.question_overview') }}">
-        <button class="btn btn-primary">Back to Overview</button>
-    </a>
-</div>
+    <div style="margin-top: 15px;">
+        <a href="{{ url_for('question.question_overview') }}">
+            <button class="btn btn-primary">Back to Overview</button>
+        </a>
+    </div>
 {% endblock %}

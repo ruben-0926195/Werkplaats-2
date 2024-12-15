@@ -51,10 +51,10 @@ class Questions:
         return question
 
     def create_question(self, questions_id, prompts_id, users_id, question,
-                        taxonomy_bloom, rtti, tax_bloom_changed,rtti_changed):
+                        taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed):
         self.cursor.execute(
             "INSERT into questions (questions_id,prompts_id,users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed)VALUES (?,?,?,?,?,?,?,?)",
-            (questions_id, prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed,rtti_changed))
+            (questions_id, prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed))
         self.con.commit()
         return True
 
@@ -64,7 +64,7 @@ class Questions:
         return questions
 
     def update_questions(self, questions_id, prompts_id, users_id, question,
-                        taxonomy_bloom, rtti, tax_bloom_changed,rtti_changed):
+                         taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed):
         try:
             question = self.get_single_question(questions_id)
 
@@ -76,7 +76,8 @@ class Questions:
                 UPDATE questions
                 SET questions_id = ?, prompts_id = ?, users_id = ?, question = ?, taxonomy_bloom = ?, rtti = ?, tax_bloom_changed = ?, rtti_changed = ?
                 WHERE questions_id = ?
-            """, (questions_id,prompts_id,users_id,users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed))
+            """, (questions_id, prompts_id, users_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed,
+                  rtti_changed))
 
             self.con.commit()
             return True

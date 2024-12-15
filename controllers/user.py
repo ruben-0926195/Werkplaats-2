@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from models.user import User
+
 from lib.helpers import hash_password
+from models.user import User
 
 user_routes = Blueprint('user', __name__)
 

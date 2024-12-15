@@ -1,8 +1,10 @@
 import json
-import os
-from flask import Flask, render_template, request
-from models.database import Database
 import logging
+import os
+
+from flask import Flask, render_template, request
+
+from models.database import Database
 
 # Configure logging
 logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')

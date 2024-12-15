@@ -3,43 +3,46 @@
 {% block title %}User Registration{% endblock %}
 
 {% block content %}
-<!-- Registration Form -->
-<div class="container registration-container">
-  <h2 class="text-center mb-4">User Registration</h2>
-  <div class="card">
-    <div class="card-body">
-      <form action="{{ url_for('user.user_create') }}" method="POST">
-        <!-- Login (Username) -->
-        <div class="mb-3">
-          <label for="login" class="form-label">Login (Username):</label>
-          <input type="text" class="form-control" id="login" name="login" placeholder="Enter your username" required>
-        </div>
+    <!-- Registration Form -->
+    <div class="container registration-container">
+        <h2 class="text-center mb-4">User Registration</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="{{ url_for('user.user_create') }}" method="POST">
+                    <!-- Login (Username) -->
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Login (Username):</label>
+                        <input type="text" class="form-control" id="login" name="login"
+                               placeholder="Enter your username" required>
+                    </div>
 
-        <!-- Password -->
-        <div class="mb-3">
-          <label for="password" class="form-label">Password:</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
-        </div>
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                               placeholder="Enter your password" required>
+                    </div>
 
-        <!-- Display Name -->
-        <div class="mb-3">
-          <label for="display_name" class="form-label">Display Name:</label>
-          <input type="text" class="form-control" id="display_name" name="display_name" placeholder="Enter your display name" required>
-        </div>
+                    <!-- Display Name -->
+                    <div class="mb-3">
+                        <label for="display_name" class="form-label">Display Name:</label>
+                        <input type="text" class="form-control" id="display_name" name="display_name"
+                               placeholder="Enter your display name" required>
+                    </div>
 
-        <!-- Admin Checkbox -->
-        <div class="form-check mb-4">
-          <input type="checkbox" class="form-check-input" id="is_admin" name="is_admin">
-          <label class="form-check-label" for="is_admin">Admin</label>
-        </div>
+                    <!-- Admin Checkbox -->
+                    <div class="form-check mb-4">
+                        <input type="checkbox" class="form-check-input" id="is_admin" name="is_admin">
+                        <label class="form-check-label" for="is_admin">Admin</label>
+                    </div>
 
-        <!-- Submit Button -->
-        <div class="d-grid">
-          <button type="submit" class="btn btn-success">Submit</button>
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
-      </form>
     </div>
-  </div>
-</div>
 
 {% endblock %}

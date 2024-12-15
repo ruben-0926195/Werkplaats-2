@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for, session
+
 from models.prompt import Prompt
 
 prompt_routes = Blueprint('prompt', __name__)

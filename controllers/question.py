@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash, send_file
 import json
 
-from models.question_extraction import process_json
-from models.question import Questions
+from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash, send_file
+
 from models.prompt import Prompt
+from models.question import Questions
+from models.question_extraction import process_json
 
 question_routes = Blueprint('question', __name__)
 
