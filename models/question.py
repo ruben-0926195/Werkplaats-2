@@ -63,26 +63,40 @@ class Questions:
         questions = self.cursor.fetchall()
         return questions
 
-    def update_questions(self, questions_id, prompts_id, users_id, question,
-                         taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed):
+    def get_all_users(self):
         try:
-            question = self.get_single_question(questions_id)
+            self.cursor.execute("SELECT user_id, display_name FROM users")  # Fetch display_name instead of username
+            users = self.cursor.fetchall()
+            return users
+        except Exception as e:
+            print(f"Error fetching users: {e}")
+            return []
 
-            if not question:
+        # Update question details
+
+    def update_question(self, questions_id, prompts_id, users_id, question,
+                        taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed):
+        try:
+            # Fetch the existing question
+            existing_question = self.get_single_question(questions_id)
+            if not existing_question:
                 print(f"Question with ID {questions_id} not found.")
                 return None
 
+            # Perform the update
             self.cursor.execute("""
-                UPDATE questions
-                SET questions_id = ?, prompts_id = ?, users_id = ?, question = ?, taxonomy_bloom = ?, rtti = ?, tax_bloom_changed = ?, rtti_changed = ?
-                WHERE questions_id = ?
-            """, (questions_id, prompts_id, users_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed,
-                  rtti_changed))
+                  UPDATE questions
+                  SET prompts_id = ?, users_id = ?, question = ?, taxonomy_bloom = ?, rtti = ?, 
+                      tax_bloom_changed = ?, rtti_changed = ?
+                  WHERE questions_id = ?
+              """, (
+            prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed, questions_id))
 
             self.con.commit()
+            print(f"Question with ID {questions_id} updated successfully.")
             return True
         except Exception as e:
-            print(f"Error updating questions: {e}")
+            print(f"Error updating question: {e}")
             return None
 
     def delete_question(self, questions_id):
