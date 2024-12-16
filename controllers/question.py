@@ -158,16 +158,13 @@ def question_update(questions_id):
             taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed
         )
 
-        # Optionally, flash a success message
         flash("Question updated successfully!", "update")
 
         # Close the database connection
         question_model.close_connection()
 
-        # Redirect to a page (e.g., questions overview)
         return redirect(url_for('question.question_overview'))
 
-    # For GET requests: Pre-fill the form with the current question data
     question = question_model.get_single_question(questions_id)
     users = question_model.get_all_users()  # Fetch all users for dropdown
 
