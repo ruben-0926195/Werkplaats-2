@@ -133,3 +133,45 @@ def upload_json():
     if "error" in result:
         return render_template('upload.html', result=result)
     return render_template('upload.html', result=result)
+
+@question_routes.route('/question/update/<questions_id>', methods=['GET', 'POST'])
+def question_update(questions_id):
+    # Ensure the user is logged in
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
+    question_model = Questions()
+
+    if request.method == 'POST':
+        # Collect data from the form
+        prompts_id = request.form.get('prompts_id')
+        users_id = request.form.get('users_id')  # Capture the new users_id from dropdown
+        question = request.form.get('question')
+        taxonomy_bloom = request.form.get('taxonomy_bloom')
+        rtti = request.form.get('rtti')
+        tax_bloom_changed = request.form.get('tax_bloom_changed') == 'on'
+        rtti_changed = request.form.get('rtti_changed') == 'on'
+
+        # Update the question in the database
+        question_model.update_question(
+            questions_id, prompts_id, users_id, question,
+            taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed
+        )
+
+        # Optionally, flash a success message
+        flash("Question updated successfully!", "update")
+
+        # Close the database connection
+        question_model.close_connection()
+
+        # Redirect to a page (e.g., questions overview)
+        return redirect(url_for('question.question_overview'))
+
+    # For GET requests: Pre-fill the form with the current question data
+    question = question_model.get_single_question(questions_id)
+    users = question_model.get_all_users()  # Fetch all users for dropdown
+
+    # Close the database connection after fetching the data
+    question_model.close_connection()
+
+    return render_template('question_update.html', question=question, users=users)
