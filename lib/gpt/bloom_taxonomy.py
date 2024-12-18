@@ -1,5 +1,6 @@
 import json
 import traceback
+import logging
 
 from openai import OpenAI
 from ollama import Client
@@ -41,48 +42,59 @@ def get_json_from_response(response):
     try:
         result = json.loads(json_string)
     except json.JSONDecodeError as e:
-        print(json_string)
+        logging.error("JSON decoding error: %s", e)
+        logging.error("Response content: %s", json_string)
         raise e
     return result
 
 
 def get_openai_chat(question, prompt, settings):
-    client = OpenAI(api_key=settings.get("api_key"))
-    completion = client.chat.completions.create(
-        model=settings["model"],  # alternatieven zijn gpt-3.5-turbo en gpt-4.0-turbo
-        messages=[
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": question}
-        ]
-    )
-    if len(completion.choices) == 0:
-        raise ValueError("No completion found")
+    try:
+        client = OpenAI(api_key=settings.get("api_key"))
+        completion = client.chat.completions.create(
+            model=settings["model"],  # alternatieven zijn gpt-3.5-turbo en gpt-4.0-turbo
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": question}
+            ]
+        )
+        if len(completion.choices) == 0:
+            raise ValueError("No completion found")
 
-    raw_content = completion.choices[0].message.content
-    result = get_json_from_response(raw_content)
-    return result
+        raw_content = completion.choices[0].message.content
+        result = get_json_from_response(raw_content)
+        return result
+    except Exception as e:
+        logging.error("Error in get_openai_chat: %s", e)
+        traceback.print_exc()
+        raise e
 
 
 def get_ollama_chat(question, prompt, settings):
-    client = Client(host=settings.get("endpoint"))
-    messages = [
-        {
-            'role': 'system',
-            'content': prompt,
-        },
-        {
-            'role': 'user',
-            'content': question,
-        },
-    ]
-    response = client.chat(model=settings.get("model"), messages=messages)
-    if 'message' not in response or 'content' not in response['message']:
-        print(response)
-        raise ValueError("No message in response")
+    try:
+        client = Client(host=settings.get("endpoint"))
+        messages = [
+            {
+                'role': 'system',
+                'content': prompt,
+            },
+            {
+                'role': 'user',
+                'content': question,
+            },
+        ]
+        response = client.chat(model=settings.get("model"), messages=messages)
+        if 'message' not in response or 'content' not in response['message']:
+            print(response)
+            raise ValueError("No message in response")
 
-    raw_content = response['message']['content']
-    result = get_json_from_response(raw_content)
-    return result
+        raw_content = response['message']['content']
+        result = get_json_from_response(raw_content)
+        return result
+    except Exception as e:
+        logging.error("Error in get_ollama_chat: %s", e)
+        traceback.print_exc()
+        raise e
 
 
 def get_bloom_category(question, prompt, gpt):
@@ -106,7 +118,8 @@ def get_bloom_category(question, prompt, gpt):
             case "presentatie":
                 result = get_openai_chat(question, prompt, settings)
     except Exception as e:
+        logging.error("Error in get_bloom_category: %s", e)
         traceback.print_exc()
-        print(e)
+        raise e
     finally:
         return result
