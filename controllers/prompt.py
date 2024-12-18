@@ -53,7 +53,7 @@ def prompt_show(prompt_id):
 @prompt_routes.route('/prompt/create', methods=['GET', 'POST'])
 def prompt_create():
     if request.method == 'POST':
-        title = request.form.get('prompt')
+        title = request.form.get('title')
         prompt = request.form.get('prompt')
 
         prompt_model = Prompt()

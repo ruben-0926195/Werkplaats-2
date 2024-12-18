@@ -3,8 +3,9 @@ import json
 from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash, send_file
 
 from models.prompt import Prompt
-from models.question import Questions
+from models.question import Questions, call_llm_api
 from models.question_extraction import process_json
+from lib.gpt.bloom_taxonomy import get_bloom_category
 
 question_routes = Blueprint('question', __name__)
 
@@ -196,3 +197,32 @@ def question_update(questions_id):
     question_model.close_connection()
 
     return render_template('question_update.html', question=question, users=users)
+
+@question_routes.route('/question/generate_proposal/<question_id>', methods=['POST'])
+def generate_proposal(question_id):
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
+    data = Questions()
+    question = data.get_single_question(question_id)
+
+    if not question:
+        flash("Question not found.", "danger")
+        return redirect(url_for('question.question_show', question_id=question_id))
+
+    prompt_id = request.form.get('prompt_id')
+    prompt_model = Prompt()
+    selected_prompt = prompt_model.get_single_prompt(prompt_id)
+
+    if not selected_prompt:
+        flash("Prompt not found.", "danger")
+        return redirect(url_for('question.question_show', question_id=question_id))
+
+    proposal = call_llm_api(question['question'], selected_prompt['prompt'])
+
+    if proposal:
+        flash("Proposal generated successfully!", "success")
+    else:
+        flash("Failed to generate proposal.", "danger")
+
+    return render_template('question_show.html', question=question, proposal=proposal, prompts=prompt_model.get_prompts())
