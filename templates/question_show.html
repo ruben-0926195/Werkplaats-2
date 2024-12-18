@@ -7,19 +7,19 @@
     <h2 class="text-center mb-4">Vraag indexeren naar taxonomie</h2>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="container mt-2">
-                    {% for category, message in messages %}
-                        <div class="alert
+        {% if messages %}
+            <div class="container mt-2">
+                {% for category, message in messages %}
+                    <div class="alert
                     {% if category == 'success' %}alert-success{% elif category == 'update' %}alert-primary{% elif category == 'delete' %}alert-danger{% endif %}
                     alert-dismissible fade show p-3" style="margin-bottom: 0;" role="alert">
-                            {{ message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 
     <div class="card shadow-sm mb-4">
         <div class="card-body">
@@ -44,18 +44,18 @@
         </div>
 
         <form action="{{ url_for('question.generate_proposal', question_id=question['questions_id']) }}" method="post">
-    <div class="d-flex align-items-end mt-4">
-        <div class="me-3">
-            <label for="promptSelect" class="form-label"><strong>Prompt</strong></label>
-            <select id="promptSelect" name="prompt_id" class="form-select" style="width: 200px;">
-                {% for prompt in prompts %}
-                    <option value="{{ prompt.prompts_id }}">{{ prompt.title }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Genereer Voorstel</button>
-    </div>
-</form>
+            <div class="d-flex align-items-end mt-4">
+                <div class="me-3">
+                    <label for="promptSelect" class="form-label"><strong>Prompt</strong></label>
+                    <select id="promptSelect" name="prompt_id" class="form-select" style="width: 200px;">
+                        {% for prompt in prompts %}
+                            <option value="{{ prompt.prompts_id }}">{{ prompt.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Genereer Voorstel</button>
+            </div>
+        </form>
     </div>
 
     <div>

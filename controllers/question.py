@@ -186,16 +186,19 @@ def generate_proposal(question_id):
         flash("Question not found.", "danger")
         return redirect(url_for('question.question_show', question_id=question_id))
 
-    prompt = """Gebruik de taxonomie van Bloom om de volgende vraag in één van de niveaus "Onthouden", "Begrijpen", "Toepassen", "Analyseren", "Evalueren" en "Creëren" en leg uit waarom je dat niveau hebt gekozen. Geef het antwoord in een RFC8259 JSON met de volgende opmaak:
-    {
-       "niveau": "niveau van Bloom",
-       "uitleg": "uitleg waarom dit niveau van toepassing is"
-    }"""
-    proposal = call_llm_api(question['question'], prompt)
+    prompt_id = request.form.get('prompt_id')
+    prompt_model = Prompt()
+    selected_prompt = prompt_model.get_single_prompt(prompt_id)
+
+    if not selected_prompt:
+        flash("Prompt not found.", "danger")
+        return redirect(url_for('question.question_show', question_id=question_id))
+
+    proposal = call_llm_api(question['question'], selected_prompt['prompt'])
 
     if proposal:
         flash("Proposal generated successfully!", "success")
     else:
         flash("Failed to generate proposal.", "danger")
 
-    return render_template('question_show.html', question=question, proposal=proposal)
+    return render_template('question_show.html', question=question, proposal=proposal, prompts=prompt_model.get_prompts())
