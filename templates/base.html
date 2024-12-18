@@ -10,13 +10,24 @@
     <!-- Font Awesome CSS library -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
-        /* Center the registration form */
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+        }
+
         .registration-container {
             max-width: 500px;
             margin-top: 50px;
         }
 
-        /* Center the user info card */
         .user-info-container {
             max-width: 600px;
             margin-top: 50px;
@@ -43,7 +54,6 @@
             font-weight: 600;
         }
 
-        /* Dropdown menu styling */
         .navbar-light .navbar-nav .dropdown-menu {
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -60,12 +70,10 @@
             color: #0056b3;
         }
 
-        /* Adjust the logo size */
         .navbar img {
             height: 40px;
             margin-right: 15px;
         }
-
     </style>
 </head>
 <body>
@@ -117,9 +125,11 @@
     </div>
 </nav>
 
-<main class="container my-4">
-    {% block content %}{% endblock %}
-</main>
+<div class="content-wrapper">
+    <main class="container my-4">
+        {% block content %}{% endblock %}
+    </main>
+</div>
 
 <!-- Footer -->
 <footer class="bg-light text-center py-3">
