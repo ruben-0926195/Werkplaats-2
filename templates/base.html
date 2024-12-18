@@ -10,7 +10,19 @@
     <!-- Font Awesome CSS library -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
-        /* Center the registration form */
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+        }
+
         .registration-container {
             max-width: 500px;
             margin-top: 50px;
@@ -128,9 +140,11 @@
     </div>
 </nav>
 
-<main class="container my-4">
-    {% block content %}{% endblock %}
-</main>
+<div class="content-wrapper">
+    <main class="container my-4">
+        {% block content %}{% endblock %}
+    </main>
+</div>
 
 <!-- Footer -->
 <footer class="bg-light text-center py-3">
