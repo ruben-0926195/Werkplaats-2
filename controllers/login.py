@@ -22,6 +22,7 @@ def login():
 
                 session['logged_in'] = True
                 session['username'] = username
+                session['user_id'] = user.get_user_by_name(username)['user_id']
                 session['is_admin'] = user.get_user_by_name(username)['is_admin']
                 return redirect(url_for('question.question_overview'))
             else:

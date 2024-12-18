@@ -20,7 +20,6 @@ def create_export_file():
             data.delete_question(question["questions_id"])
         f.close()
 
-
 @question_routes.route('/question/download')
 def export_questions():
     create_export_file()
@@ -35,13 +34,38 @@ def question_indexing():
 
     return "question_indexing"
 
+@question_routes.route('/question/create', methods=['GET', 'POST'])
+def create_question():
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
 
-# @question_routes.route('/question/overview')
-# def question_overview_old():
-#     data = Questions()
-#     questions = data.get_all_questions()
-#
-#     return render_template("question_overview.html", questions=questions)
+    if request.method == "POST":
+        questions_id = request.form.get('questions_id')
+        prompts_id = -1
+        users_id = session["user_id"]
+        question = request.form.get('question')
+        taxonomy_bloom = None
+        rtti = None
+        taxonomy_bloom_changed = 0
+        rtti_changed = 0
+        awnser = request.form.get('awnser')
+        subject = request.form.get('subject')
+        subject_level = request.form.get('subject_level')
+        grade = request.form.get('grade')
+        data = Questions()
+        data.create_question(questions_id, prompts_id, users_id, question, taxonomy_bloom,
+                             rtti, taxonomy_bloom_changed, rtti_changed,
+                             awnser, subject, subject_level, grade)
+        return redirect(url_for("question.question_overview"))
+
+    return render_template('question_create.html')
+
+
+
+
+
+
+
 
 @question_routes.route('/question/overview', methods=['GET', 'POST'])
 def question_overview():

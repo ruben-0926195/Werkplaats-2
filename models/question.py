@@ -51,10 +51,11 @@ class Questions:
         return question
 
     def create_question(self, questions_id, prompts_id, users_id, question,
-                        taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed):
+                        taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed,
+                        awnser, subject, subject_level, grade):
         self.cursor.execute(
-            "INSERT into questions (questions_id,prompts_id,users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed)VALUES (?,?,?,?,?,?,?,?)",
-            (questions_id, prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed))
+            "INSERT into questions (questions_id,prompts_id,users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed, answer, vak, onderwijsniveau, leerjaar, question_index) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            (questions_id, prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed, awnser, subject, subject_level, grade,0))
         self.con.commit()
         return True
 
