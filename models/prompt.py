@@ -50,10 +50,11 @@ class Prompt:
         result = self.cursor.execute("SELECT * FROM prompts").fetchall()
         return result
 
+    # TODO use correct user id
     def create_prompt(self, title, prompt, user_id=3, curr_date=date.today(),
                       categorized=0, correct=0, incorrect=0):
         self.cursor.execute(
-            "INSERT into prompts (user_id, title, prompt, date, categorized, correct, incorrect) "
+            "INSERT INTO prompts (user_id, title, prompt, date, categorized, correct, incorrect) "
             "VALUES (?, ?, ?, ?, ?, ?, ?)",
             (user_id, title, prompt, curr_date, categorized, correct, incorrect))
         self.con.commit()
