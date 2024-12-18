@@ -90,7 +90,7 @@ class Questions:
                       tax_bloom_changed = ?, rtti_changed = ?
                   WHERE questions_id = ?
               """, (
-            prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed, questions_id))
+                prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed, questions_id))
 
             self.con.commit()
             print(f"Question with ID {questions_id} updated successfully.")
@@ -106,3 +106,10 @@ class Questions:
     def close_connection(self):
         # Close the database connection
         self.con.close()
+
+
+def call_llm_api(question_text, prompt):
+    from lib.gpt.bloom_taxonomy import get_bloom_category
+
+    taxonomy_and_explanation = get_bloom_category(question_text, prompt, "rac_test")
+    return taxonomy_and_explanation

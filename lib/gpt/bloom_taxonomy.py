@@ -23,7 +23,6 @@ gpt_model_map = {
 }
 
 
-# Eem GPT reageert als Chatbot
 def get_json_from_response(response):
     # Vaak geeft ChatGPT / Ollama een JSON terug, maar soms ook niet
     # We gaan dus op zoek naar de JSON in de response..
@@ -97,9 +96,10 @@ def get_bloom_category(question, prompt, gpt):
         match gpt:
             case "dry_run":
                 print("No model given, we are returning a static answer for testing")
-                result = {
+                return {
                     "categorie": "Onthouden",
-                    "uitleg": "De vraag vereist het onthouden van feitelijke informatie over de Grutto, zoals zijn classificatie als vogelsoort."
+                    "uitleg": "De vraag vereist het onthouden van feitelijke informatie over de Grutto, zoals zijn "
+                              "classificatie als vogelsoort."
                 }
             case "rac_test":
                 result = get_ollama_chat(question, prompt, settings)
@@ -112,20 +112,19 @@ def get_bloom_category(question, prompt, gpt):
         return result
 
 
-if __name__ == "__main__":
-    prompt = """ 
-    Gebruik de taxonomie van Bloom om de volgende vraag in één van de niveaus "Onthouden", "Begrijpen", "Toepassen", "Analyseren", "Evalueren" en "Creëren" en leg uit waarom je dat niveau hebt gekozen. Geef het antwoord in een RFC8259 JSON met de volgende opmaak:
-    {
-       "niveau": "niveau van Bloom",
-       "uitleg": "uitleg waarom dit niveau van toepassing is"
-    }
-    """
-    question = "Wat is de hoofdstad van Nederland?"
+prompt = """ 
+Gebruik de taxonomie van Bloom om de volgende vraag in één van de niveaus "Onthouden", "Begrijpen", "Toepassen", "Analyseren", "Evalueren" en "Creëren" en leg uit waarom je dat niveau hebt gekozen. Geef het antwoord in een RFC8259 JSON met de volgende opmaak:
+{
+   "niveau": "niveau van Bloom",
+   "uitleg": "uitleg waarom dit niveau van toepassing is"
+}
+"""
+question = "Welke twee stoffen ontstaan bij kaas?"
 
-    # De keuze is dus tussen "dry_run", "rac_test" en "presentatie"
-    # Het antwoord komt terug als een dictionary:
-    # {
-    #    "niveau": "niveau van Bloom",
-    #    "uitleg": "uitleg waarom dit niveau van toepassing is"
-    # }
-    print(get_bloom_category(question, prompt, "dry_run"))
+# De keuze is dus tussen "dry_run", "rac_test" en "presentatie"
+# Het antwoord komt terug als een dictionary:
+# {
+#    "niveau": "niveau van Bloom",
+#    "uitleg": "uitleg waarom dit niveau van toepassing is"
+# }
+print(get_bloom_category(question, prompt, "rac_test"))

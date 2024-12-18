@@ -3,8 +3,9 @@ import json
 from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash, send_file
 
 from models.prompt import Prompt
-from models.question import Questions
+from models.question import Questions, call_llm_api
 from models.question_extraction import process_json
+from lib.gpt.bloom_taxonomy import get_bloom_category
 
 question_routes = Blueprint('question', __name__)
 
@@ -172,3 +173,29 @@ def question_update(questions_id):
     question_model.close_connection()
 
     return render_template('question_update.html', question=question, users=users)
+
+@question_routes.route('/question/generate_proposal/<question_id>', methods=['POST'])
+def generate_proposal(question_id):
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
+    data = Questions()
+    question = data.get_single_question(question_id)
+
+    if not question:
+        flash("Question not found.", "danger")
+        return redirect(url_for('question.question_show', question_id=question_id))
+
+    prompt = """Gebruik de taxonomie van Bloom om de volgende vraag in één van de niveaus "Onthouden", "Begrijpen", "Toepassen", "Analyseren", "Evalueren" en "Creëren" en leg uit waarom je dat niveau hebt gekozen. Geef het antwoord in een RFC8259 JSON met de volgende opmaak:
+    {
+       "niveau": "niveau van Bloom",
+       "uitleg": "uitleg waarom dit niveau van toepassing is"
+    }"""
+    proposal = call_llm_api(question['question'], prompt)
+
+    if proposal:
+        flash("Proposal generated successfully!", "success")
+    else:
+        flash("Failed to generate proposal.", "danger")
+
+    return render_template('question_show.html', question=question, proposal=proposal)
