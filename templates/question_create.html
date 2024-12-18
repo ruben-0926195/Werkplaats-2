@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Vraag aanmaken{% endblock %}
+
+{% block content %}
+<!-- Registration Form -->
+<div class="container registration-container">
+  <h2 class="text-center mb-4">Vraag aanmaken</h2>
+  <div class="card">
+    <div class="card-body">
+      <form action="{{ url_for('question.create_question') }}" method="POST">
+        <!-- Vraag id -->
+        <div class="mb-3">
+          <label for="questions_id" class="form-label">Vraag ID:</label>
+          <input type="text" class="form-control" id="questions_id" name="questions_id" placeholder="Enter your username" required>
+        </div>
+
+        <!-- vraag -->
+        <div class="mb-3">
+          <label for="question" class="form-label">vraag:</label>
+          <input type="text" class="form-control" id="question" name="question" placeholder="Enter your password" required>
+        </div>
+
+        <!-- Antwoord -->
+        <div class="mb-3">
+          <label for="awnser" class="form-label">Antwoord</label>
+          <input type="text" class="form-control" id="awnser" name="awnser" placeholder="Enter your display name" required>
+        </div>
+
+        <!-- Admin Checkbox -->
+        <div class="mb-3">
+          <label for="subject" class="form-label">Vak</label>
+          <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter your display name" required>
+        </div>
+
+          <div class="mb-3">
+          <label for="subject_level" class="form-label">Onderwijs niveau</label>
+          <input type="text" class="form-control" id="subject_level" name="subject_level" placeholder="Enter your display name" required>
+        </div>
+
+          <div class="mb-3">
+          <label for="grade" class="form-label">Leerjaar</label>
+          <input type="text" class="form-control" id="grade" name="grade" placeholder="Enter your display name" required>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid">
+          <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
