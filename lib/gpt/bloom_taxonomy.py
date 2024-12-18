@@ -110,21 +110,3 @@ def get_bloom_category(question, prompt, gpt):
         print(e)
     finally:
         return result
-
-
-prompt = """ 
-Gebruik de taxonomie van Bloom om de volgende vraag in één van de niveaus "Onthouden", "Begrijpen", "Toepassen", "Analyseren", "Evalueren" en "Creëren" en leg uit waarom je dat niveau hebt gekozen. Geef het antwoord in een RFC8259 JSON met de volgende opmaak:
-{
-   "niveau": "niveau van Bloom",
-   "uitleg": "uitleg waarom dit niveau van toepassing is"
-}
-"""
-question = "Welke twee stoffen ontstaan bij kaas?"
-
-# De keuze is dus tussen "dry_run", "rac_test" en "presentatie"
-# Het antwoord komt terug als een dictionary:
-# {
-#    "niveau": "niveau van Bloom",
-#    "uitleg": "uitleg waarom dit niveau van toepassing is"
-# }
-print(get_bloom_category(question, prompt, "rac_test"))
