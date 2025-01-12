@@ -50,16 +50,14 @@
     </div>
 
 <div>
-    <!-- Display the generated proposal if available -->
     {% if proposal %}
-        <div class="proposal mt-4">
+        <div class="proposal">
             <h3>Gegenereerd voorstel</h3>
             <p><strong>Niveau:</strong> {{ proposal.niveau }}</p>
             <p><strong>Uitleg:</strong> {{ proposal.uitleg }}</p>
         </div>
     {% endif %}
 </div>
-
 
     <form action="{{ url_for('question.update_taxonomy', question_id=question['questions_id']) }}" method="post">
     <div class="mb-3">
@@ -73,9 +71,8 @@
             <option value="Creëren">Creëren</option>
         </select>
     </div>
+
     <button type="submit" class="btn btn-success">Opslaan</button>
 </form>
-
-
 
 {% endblock %}

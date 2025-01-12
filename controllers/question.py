@@ -1,7 +1,5 @@
 import json
-
 from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash, send_file
-
 from models.prompt import Prompt
 from models.question import Questions, call_llm_api
 from models.question_extraction import process_json
@@ -62,12 +60,6 @@ def create_question():
     return render_template('question_create.html')
 
 
-
-
-
-
-
-
 @question_routes.route('/question/overview', methods=['GET', 'POST'])
 def question_overview():
     if "logged_in" not in session:
@@ -117,33 +109,49 @@ def question_show(question_id):
     prompt = Prompt()
     prompts = prompt.get_prompts()
 
-    return render_template('question_show.html', question=question, prompts=prompts)
+    # Haal de gegenereerde prompt op uit de sessie
+    proposal = session.get('generated_proposal')
+
+    return render_template('question_show.html', question=question, prompts=prompts, proposal=proposal)
 
 
 @question_routes.route('/question/update_taxonomy/<question_id>', methods=['POST'])
 def update_taxonomy(question_id):
-    if "logged_in" not in session:
-        return redirect(url_for('login.login'))
-
     selected_taxonomy = request.form.get('taxonomy_bloom')
-    print(f"Selected taxonomy: {selected_taxonomy}, Question ID: {question_id}")  # Debug log
+
+    # Haal de gegenereerde prompt op uit de sessie
+    generated_prompt = session.get('generated_proposal')
+
+    # Haal de users_id op uit de sessie
+    users_id = session.get('user_id')
 
     data = Questions()
 
     try:
+        # Update de taxonomie en users_id in de database
         data.cursor.execute("""
             UPDATE questions
-            SET taxonomy_bloom = ?
+            SET taxonomy_bloom = ?, users_id = ?
             WHERE questions_id = ?
-        """, (selected_taxonomy, question_id))
+        """, (selected_taxonomy, users_id, question_id))
         data.con.commit()
-        flash("Taxonomie succesvol bijgewerkt!", "success")
+
+        # Haal de vraag opnieuw op
+        data.cursor.execute("SELECT * FROM questions WHERE questions_id = ?", (question_id,))
+        question = data.cursor.fetchone()
+
+        flash("Taxonomie en users_id succesvol bijgewerkt!", "success")
     except Exception as e:
-        flash(f"Fout bij het bijwerken van taxonomie: {e}", "danger")
+        flash(f"Fout bij het bijwerken van de taxonomie en users_id: {e}", "danger")
+        question = None
     finally:
         data.close_connection()
 
-    return redirect(url_for('question.question_show', question_id=question_id))
+    # Verwijder de gegenereerde prompt uit de sessie
+    session.pop('generated_proposal', None)
+
+    # Render de template met de gegenereerde prompt
+    return render_template('question_show.html', question=question, proposal=generated_prompt)
 
 @question_routes.route('/question/delete/<question_id>', methods=['GET', 'POST'])
 def question_delete(question_id):
@@ -184,6 +192,7 @@ def upload_json():
         return render_template('upload.html', result=result)
     return render_template('upload.html', result=result)
 
+
 @question_routes.route('/question/update/<questions_id>', methods=['GET', 'POST'])
 def question_update(questions_id):
     # Ensure the user is logged in
@@ -223,6 +232,7 @@ def question_update(questions_id):
 
     return render_template('question_update.html', question=question, users=users)
 
+
 @question_routes.route('/question/generate_proposal/<question_id>', methods=['POST'])
 def generate_proposal(question_id):
     if "logged_in" not in session:
@@ -246,8 +256,10 @@ def generate_proposal(question_id):
     proposal = call_llm_api(question['question'], selected_prompt['prompt'])
 
     if proposal:
+        # Sla de gegenereerde prompt op in de sessie
+        session['generated_proposal'] = proposal
         flash("Proposal generated successfully!", "success")
     else:
         flash("Failed to generate proposal.", "danger")
 
-    return render_template('question_show.html', question=question, proposal=proposal, prompts=prompt_model.get_prompts())
+    return redirect(url_for('question.question_show', question_id=question_id))
