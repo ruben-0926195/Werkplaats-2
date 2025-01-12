@@ -49,14 +49,30 @@
         </form>
     </div>
 
-    <div>
-        <!-- Display the generated proposal if available -->
-        {% if proposal %}
-            <div class="proposal">
-                <h3>Gegenereerd voorstel</h3>
-                <p><strong>Niveau:</strong> {{ proposal.niveau }}</p>
-                <p><strong>Uitleg:</strong> {{ proposal.uitleg }}</p>
-            </div>
-        {% endif %}
+<div>
+    {% if proposal %}
+        <div class="proposal">
+            <h3>Gegenereerd voorstel</h3>
+            <p><strong>Niveau:</strong> {{ proposal.niveau }}</p>
+            <p><strong>Uitleg:</strong> {{ proposal.uitleg }}</p>
+        </div>
+    {% endif %}
+</div>
+
+    <form action="{{ url_for('question.update_taxonomy', question_id=question['questions_id']) }}" method="post">
+    <div class="mb-3">
+        <label for="taxonomySelect" class="form-label"><strong>Taxonomie (Bloom)</strong></label>
+        <select id="taxonomySelect" name="taxonomy_bloom" class="form-select">
+            <option value="Onthouden">Onthouden</option>
+            <option value="Begrijpen">Begrijpen</option>
+            <option value="Toepassen">Toepassen</option>
+            <option value="Analyseren">Analyseren</option>
+            <option value="Evalueren">Evalueren</option>
+            <option value="Creëren">Creëren</option>
+        </select>
     </div>
+
+    <button type="submit" class="btn btn-success">Opslaan</button>
+</form>
+
 {% endblock %}
