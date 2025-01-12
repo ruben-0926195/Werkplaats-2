@@ -120,6 +120,31 @@ def question_show(question_id):
     return render_template('question_show.html', question=question, prompts=prompts)
 
 
+@question_routes.route('/question/update_taxonomy/<question_id>', methods=['POST'])
+def update_taxonomy(question_id):
+    if "logged_in" not in session:
+        return redirect(url_for('login.login'))
+
+    selected_taxonomy = request.form.get('taxonomy_bloom')
+    print(f"Selected taxonomy: {selected_taxonomy}, Question ID: {question_id}")  # Debug log
+
+    data = Questions()
+
+    try:
+        data.cursor.execute("""
+            UPDATE questions
+            SET taxonomy_bloom = ?
+            WHERE questions_id = ?
+        """, (selected_taxonomy, question_id))
+        data.con.commit()
+        flash("Taxonomie succesvol bijgewerkt!", "success")
+    except Exception as e:
+        flash(f"Fout bij het bijwerken van taxonomie: {e}", "danger")
+    finally:
+        data.close_connection()
+
+    return redirect(url_for('question.question_show', question_id=question_id))
+
 @question_routes.route('/question/delete/<question_id>', methods=['GET', 'POST'])
 def question_delete(question_id):
     if "logged_in" not in session:
