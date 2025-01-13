@@ -114,50 +114,32 @@ def question_show(question_id):
     prompt = Prompt()
     prompts = prompt.get_prompts()
 
-    # Haal de gegenereerde prompt op uit de sessie
-    proposal = session.get('generated_proposal')
+    # Haal de gegenereerde prompt op voor deze specifieke vraag
+    proposal = session.get('generated_proposals', {}).get(question_id)
 
     return render_template('question_show.html', question=question, prompts=prompts, proposal=proposal)
-
 
 @question_routes.route('/question/update_taxonomy/<question_id>', methods=['POST'])
 def update_taxonomy(question_id):
     selected_taxonomy = request.form.get('taxonomy_bloom')
 
-    # Haal de gegenereerde prompt op uit de sessie
-    generated_prompt = session.get('generated_proposal')
-
-    # Haal de users_id op uit de sessie
-    users_id = session.get('user_id')
-
+    # Update the taxonomy in the database
     data = Questions()
-
     try:
-        # Update de taxonomie en users_id in de database
         data.cursor.execute("""
             UPDATE questions
-            SET taxonomy_bloom = ?, users_id = ?
+            SET taxonomy_bloom = ?
             WHERE questions_id = ?
-        """, (selected_taxonomy, users_id, question_id))
+        """, (selected_taxonomy, question_id))
         data.con.commit()
-
-        # Haal de vraag opnieuw op
-        data.cursor.execute("SELECT * FROM questions WHERE questions_id = ?", (question_id,))
-        question = data.cursor.fetchone()
-
-        flash("Taxonomie en users_id succesvol bijgewerkt!", "success")
+        flash("Taxonomie succesvol bijgewerkt!", "success")
     except Exception as e:
-        flash(f"Fout bij het bijwerken van de taxonomie en users_id: {e}", "danger")
-        question = None
+        flash(f"Fout bij het bijwerken van de taxonomie: {e}", "danger")
     finally:
         data.close_connection()
 
-    # Verwijder de gegenereerde prompt uit de sessie
-    session.pop('generated_proposal', None)
-
-    # Render de template met de gegenereerde prompt
-    return render_template('question_show.html', question=question, proposal=generated_prompt)
-
+    # Redirect back to the question show page
+    return redirect(url_for('question.question_show', question_id=question_id))
 @question_routes.route('/question/delete/<question_id>', methods=['GET', 'POST'])
 def question_delete(question_id):
     if "logged_in" not in session:
@@ -261,10 +243,20 @@ def generate_proposal(question_id):
     proposal = call_llm_api(question['question'], selected_prompt['prompt'])
 
     if proposal:
-        # Sla de gegenereerde prompt op in de sessie
-        session['generated_proposal'] = proposal
+        # Sla de prompt op in een dictionary met de vraag-ID als sleutel
+        if 'generated_proposals' not in session:
+            session['generated_proposals'] = {}
+        session['generated_proposals'][question_id] = proposal
+        session.modified = True  # Zorg ervoor dat de sessie wordt bijgewerkt
         flash("Proposal generated successfully!", "success")
     else:
         flash("Failed to generate proposal.", "danger")
 
     return redirect(url_for('question.question_show', question_id=question_id))
+
+
+
+
+
+
+
