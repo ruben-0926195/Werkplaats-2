@@ -28,7 +28,7 @@ def user_overview():
     data = User()
 
     page = int(request.args.get('page', 1))  # Default page is 1
-    per_page = int(request.args.get('per_page', 5))  # Default 10 items per page
+    per_page = int(request.args.get('per_page', 10))  # Default 10 items per page
 
     # Check if a POST request was made else load users without filters
     if request.method == "POST":
