@@ -61,10 +61,10 @@ def prompt_create():
 
         # Redirect after successful form submission
         if new_prompt:
-            flash("prompt created successfully!", "success")
+            flash("prompt met succes aangemaakt!", "success")
             return redirect(url_for('prompt.prompt_overview'))
         else:
-            flash("An error occurred. Please try again.", "danger")
+            flash("Er is een fout opgetreden!", "danger")
             return redirect(url_for('prompt.prompt_create'))
 
     return render_template('prompt_create.html')
@@ -80,7 +80,7 @@ def prompt_update(prompt_id):
 
         prompt_model.update_prompt(prompt_id, title, prompt)
 
-        flash("Prompt updated successfully!", "update")
+        flash("Prompt met succes bijgewerkt!", "update")
         return redirect(url_for('prompt.prompt_overview'))
 
     prompt = prompt_model.get_single_prompt(prompt_id)
@@ -97,7 +97,7 @@ def prompt_delete(prompt_id):
     if request.method == 'POST':
         data.delete_prompt(prompt_id)
         message = "User deleted successfully!", "success"
-        flash("Prompt deleted successfully!", "delete")
+        flash("Prompt verwijderd!", "delete")
         return redirect(url_for('prompt.prompt_overview'))
 
     # Pass the user object to the confirmation page

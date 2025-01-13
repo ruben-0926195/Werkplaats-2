@@ -104,10 +104,10 @@ def user_create():
 
         # Redirect after successful form submission
         if new_user:
-            flash("User registered successfully!", "success")
+            flash("Gebruiker met succes aangemaakt!", "success")
             return redirect(url_for('user.user_overview'))
         else:
-            flash("An error occurred. Please try again.", "danger")
+            flash("Er is een fout opgetreden!", "danger")
             return redirect(url_for('user.user_create'))
 
     return render_template('user_create.html')
@@ -134,7 +134,7 @@ def user_update(user_id):
         user_model.update_user(user_id, login, hashed_password, display_name, is_admin)
 
         # Optionally, add a success message
-        flash("User updated successfully!", "update")
+        flash("Gebruiker met succes bijgewerkt!", "update")
 
         # Close the connection after updating the user
         user_model.close_connection()
@@ -166,7 +166,7 @@ def user_delete(user_id):
     if request.method == 'POST':
         # Handle deletion
         data.delete_user(user_id)
-        flash("User deleted successfully!", "delete")
+        flash("Gebruiker verwijderd!", "delete")
         return redirect(url_for('user.user_overview'))
 
     # Pass the user object to the confirmation page

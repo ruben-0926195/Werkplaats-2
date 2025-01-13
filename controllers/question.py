@@ -35,29 +35,34 @@ def question_indexing():
 
 @question_routes.route('/question/create', methods=['GET', 'POST'])
 def create_question():
-    if "logged_in" not in session:
-        return redirect(url_for('login.login'))
-
     if request.method == "POST":
-        questions_id = request.form.get('questions_id')
-        prompts_id = -1
-        users_id = session["user_id"]
-        question = request.form.get('question')
-        taxonomy_bloom = None
-        rtti = None
-        taxonomy_bloom_changed = 0
-        rtti_changed = 0
-        awnser = request.form.get('awnser')
-        subject = request.form.get('subject')
-        subject_level = request.form.get('subject_level')
-        grade = request.form.get('grade')
-        data = Questions()
-        data.create_question(questions_id, prompts_id, users_id, question, taxonomy_bloom,
-                             rtti, taxonomy_bloom_changed, rtti_changed,
-                             awnser, subject, subject_level, grade)
-        return redirect(url_for("question.question_overview"))
+        try:
+            questions_id = request.form.get('questions_id')
+            prompts_id = -1
+            users_id = session["user_id"]
+            question = request.form.get('question')
+            taxonomy_bloom = None
+            rtti = None
+            taxonomy_bloom_changed = 0
+            rtti_changed = 0
+            awnser = request.form.get('awnser')
+            subject = request.form.get('subject')
+            subject_level = request.form.get('subject_level')
+            grade = request.form.get('grade')
+
+            data = Questions()
+            data.create_question(questions_id, prompts_id, users_id, question, taxonomy_bloom,
+                                 rtti, taxonomy_bloom_changed, rtti_changed,
+                                 awnser, subject, subject_level, grade)
+
+            flash("Vraag met succes aangemaakt!", "success")
+            return redirect(url_for("question.question_overview"))
+        except Exception as e:
+            flash("Er is een fout opgetreden!", "danger")
+            return redirect(url_for("question.create_question"))
 
     return render_template('question_create.html')
+
 
 
 @question_routes.route('/question/overview', methods=['GET', 'POST'])
@@ -167,7 +172,7 @@ def question_delete(question_id):
 
     if request.method == 'POST':
         data.delete_question(question_id)
-        flash("Question deleted successfully!", "delete")
+        flash("Vraag verwijderd!", "delete")
         return redirect(url_for('question.question_overview'))
 
     return render_template('question_delete_modal.html', question=question)
@@ -217,7 +222,7 @@ def question_update(questions_id):
             taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed
         )
 
-        flash("Question updated successfully!", "update")
+        flash("Vraag met succes bijgewerkt!", "update")
 
         # Close the database connection
         question_model.close_connection()
