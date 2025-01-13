@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 
 from lib.helpers import hash_password
 from models.user import User
+from models.prompt import Prompt
+from models.question import Questions
 
 user_routes = Blueprint('user', __name__)
 
@@ -14,8 +16,19 @@ def overview():
     if session["is_admin"] == 0:
         return redirect(url_for('question.question_overview'))
 
-    return render_template('overview.html', )
+    user_data = User()
+    total_users = user_data.get_total_users()
 
+    question_data = Questions()
+    total_questions = question_data.get_total_questions()
+
+    prompt_data = Prompt()
+    total_prompts = prompt_data.get_total_prompts()
+
+    return render_template('overview.html',
+                           total_users=total_users,
+                           total_questions=total_questions,
+                           total_prompts=total_prompts)
 
 @user_routes.route('/user/overview', methods=['GET', 'POST'])
 def user_overview():

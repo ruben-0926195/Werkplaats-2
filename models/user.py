@@ -6,6 +6,11 @@ class User:
         database = Database('./databases/database.db')
         self.cursor, self.con = database.connect_db()
 
+    def get_total_users(self):
+        self.cursor.execute("SELECT COUNT(*) FROM users")
+        data = self.cursor.fetchone()
+        return data[0] if data else 0
+
     def get_all_users(self, page, per_page, filters=None):
 
         offset = (page - 1) * per_page

@@ -6,9 +6,10 @@ class Questions:
         database = Database('./databases/database.db')
         self.cursor, self.con = database.connect_db()
 
-    # def get_all_questions(self):
-    #     result = self.cursor.execute("SELECT * FROM questions").fetchall()
-    #     return result
+    def get_total_questions(self):
+        self.cursor.execute("SELECT COUNT(*) FROM questions")
+        data = self.cursor.fetchone()
+        return data[0] if data else 0
 
     def get_all_questions(self, page, per_page, filters=None):
 

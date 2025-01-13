@@ -8,6 +8,11 @@ class Prompt:
         database = Database('./databases/database.db')
         self.cursor, self.con = database.connect_db()
 
+    def get_total_prompts(self):
+        self.cursor.execute("SELECT COUNT(*) FROM prompts")
+        data = self.cursor.fetchone()
+        return data[0] if data else 0
+
     def get_all_prompts(self, page, per_page, filters=None):
 
         offset = (page - 1) * per_page
