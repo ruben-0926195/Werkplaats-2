@@ -86,10 +86,18 @@ def question_overview():
         # Pass filters to the data layer
         questions, total_questions = data.get_all_questions(page, per_page, filters)
 
+        # Get total amount of pages
         total_pages = (total_questions + per_page - 1) // per_page
 
+        # Show x amount of pagination links
+        start_page = max(1, page - 5)
+        end_page = min(total_pages, page + 5)
+
         return render_template('question_overview.html',
-                               questions=questions, page=page, per_page=per_page, total_pages=total_pages)
+                               questions=questions, page=page,
+                               per_page=per_page, total_pages=total_pages,
+                               start_page=start_page, end_page=end_page
+                               )
 
     # Retrieve filters from session to ensure consistent pagination results
     filters = session.get('filters', {})
@@ -97,10 +105,17 @@ def question_overview():
     # Pass filters to the data layer
     questions, total_questions = data.get_all_questions(page, per_page, filters)
 
+    # Get total amount of pages
     total_pages = (total_questions + per_page - 1) // per_page
 
+    # Show x amount of pagination links
+    start_page = max(1, page - 4)
+    end_page = min(total_pages, page + 4)
+
     return render_template('question_overview.html',
-                           questions=questions, page=page, per_page=per_page, total_pages=total_pages)
+                           questions=questions, page=page,
+                           per_page=per_page, total_pages=total_pages,
+                           start_page=start_page, end_page=end_page)
 
 
 @question_routes.route('/question/<question_id>')

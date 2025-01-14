@@ -106,10 +106,9 @@
                                 </li>
                             {% endif %}
 
-                            {% for i in range(1, total_pages + 1) %}
+                            {% for i in range(start_page, end_page + 1) %}
                                 <li class="page-item {% if i == page %}active{% endif %}">
-                                    <a class="page-link"
-                                       href="?page={{ i }}&per_page={{ per_page }}">
+                                    <a class="page-link" href="?page={{ i }}&per_page={{ per_page }}">
                                         {{ i }}
                                     </a>
                                 </li>
