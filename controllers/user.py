@@ -61,10 +61,16 @@ def user_overview():
         start_page = max(1, page - 5)
         end_page = min(total_pages, page + 5)
 
+        # Calculate the start and end results
+        start_result = (page - 1) * per_page + 1
+        end_result = min(page * per_page, total_users)
+
         return render_template('user_overview.html',
                                users=users, page=page,
                                per_page=per_page, total_pages=total_pages,
-                               start_page=start_page, end_page=end_page)
+                               start_page=start_page, end_page=end_page,
+                               start_result=start_result, end_result=end_result,
+                               total_results=total_users)
 
     # Retrieve filters from session to ensure consistent pagination results
     filters = session.get('filters', {})
@@ -79,10 +85,16 @@ def user_overview():
     start_page = max(1, page - 5)
     end_page = min(total_pages, page + 5)
 
+    # Calculate the start and end results
+    start_result = (page - 1) * per_page + 1
+    end_result = min(page * per_page, total_users)
+
     return render_template('user_overview.html',
                            users=users, page=page,
                            per_page=per_page, total_pages=total_pages,
-                           start_page=start_page, end_page=end_page)
+                           start_page=start_page, end_page=end_page,
+                           start_result=start_result, end_result=end_result,
+                           total_results=total_users)
 
 
 @user_routes.route('/user/<user_id>')

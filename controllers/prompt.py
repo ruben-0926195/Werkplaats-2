@@ -33,10 +33,16 @@ def prompt_overview():
         start_page = max(1, page - 5)
         end_page = min(total_pages, page + 5)
 
+        # Calculate the start and end results
+        start_result = (page - 1) * per_page + 1
+        end_result = min(page * per_page, total_prompts)
+
         return render_template('prompt_overview.html',
                                prompts=prompts, page=page,
                                per_page=per_page, total_pages=total_pages,
-                               start_page=start_page, end_page=end_page)
+                               start_page=start_page, end_page=end_page,
+                               start_result=start_result, end_result=end_result,
+                               total_results=total_prompts)
 
     # Retrieve filters from session to ensure consistent pagination results
     filters = session.get('filters', {})
@@ -51,10 +57,16 @@ def prompt_overview():
     start_page = max(1, page - 5)
     end_page = min(total_pages, page + 5)
 
+    # Calculate the start and end results
+    start_result = (page - 1) * per_page + 1
+    end_result = min(page * per_page, total_prompts)
+
     return render_template('prompt_overview.html',
                            prompts=prompts, page=page,
                            per_page=per_page, total_pages=total_pages,
-                           start_page=start_page, end_page=end_page)
+                           start_page=start_page, end_page=end_page,
+                           start_result=start_result, end_result=end_result,
+                           total_results=total_prompts)
 
 
 @prompt_routes.route('/prompt/<prompt_id>')

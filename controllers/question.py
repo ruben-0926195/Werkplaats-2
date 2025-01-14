@@ -93,10 +93,15 @@ def question_overview():
         start_page = max(1, page - 5)
         end_page = min(total_pages, page + 5)
 
+        # Calculate the start and end results
+        start_result = (page - 1) * per_page + 1
+        end_result = min(page * per_page, total_questions)
+
         return render_template('question_overview.html',
                                questions=questions, page=page,
                                per_page=per_page, total_pages=total_pages,
-                               start_page=start_page, end_page=end_page
+                               start_page=start_page, end_page=end_page,
+                               start_result=start_result, end_result=end_result
                                )
 
     # Retrieve filters from session to ensure consistent pagination results
@@ -112,10 +117,16 @@ def question_overview():
     start_page = max(1, page - 4)
     end_page = min(total_pages, page + 4)
 
+    # Calculate the start and end results
+    start_result = (page - 1) * per_page + 1
+    end_result = min(page * per_page, total_questions)
+
     return render_template('question_overview.html',
                            questions=questions, page=page,
                            per_page=per_page, total_pages=total_pages,
-                           start_page=start_page, end_page=end_page)
+                           start_page=start_page, end_page=end_page,
+                           start_result=start_result, end_result=end_result,
+                           total_results=total_questions)
 
 
 @question_routes.route('/question/<question_id>')
