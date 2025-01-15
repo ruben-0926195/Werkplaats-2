@@ -148,15 +148,21 @@ def question_show(question_id):
 @question_routes.route('/question/update_taxonomy/<question_id>', methods=['POST'])
 def update_taxonomy(question_id):
     selected_taxonomy = request.form.get('taxonomy_bloom')
+    users_id = session.get('user_id')
 
-    # Update the taxonomy in the database
+    # Ensure that users_id is correctly obtained from the session
+    if not users_id:
+        flash("User is not logged in.", "danger")
+        return redirect(url_for('login.login'))
+
+    # Update the taxonomy and user ID in the database
     data = Questions()
     try:
         data.cursor.execute("""
             UPDATE questions
-            SET taxonomy_bloom = ?
+            SET taxonomy_bloom = ?, users_id = ?
             WHERE questions_id = ?
-        """, (selected_taxonomy, question_id))
+        """, (selected_taxonomy, users_id, question_id))  # Correct order of parameters
         data.con.commit()
         flash("Taxonomie succesvol bijgewerkt!", "success")
     except Exception as e:
@@ -166,6 +172,7 @@ def update_taxonomy(question_id):
 
     # Redirect back to the question show page
     return redirect(url_for('question.question_show', question_id=question_id))
+
 @question_routes.route('/question/delete/<question_id>', methods=['GET', 'POST'])
 def question_delete(question_id):
     if "logged_in" not in session:
