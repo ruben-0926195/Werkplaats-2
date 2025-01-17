@@ -109,17 +109,17 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if session.get("is_admin") %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Overzicht</a>
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="/">Overzicht</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/overview">Gebruikers</a>
+                        <a class="nav-link {% if request.path == '/user/overview' %}active{% endif %}" href="/user/overview">Gebruikers</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/question/overview">Vragen</a>
+                    <a class="nav-link {% if request.path == '/question/overview' %}active{% endif %}" href="/question/overview">Vragen</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/prompt/overview">Prompts</a>
+                    <a class="nav-link {% if request.path == '/prompt/overview' %}active{% endif %}" href="/prompt/overview">Prompts</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
