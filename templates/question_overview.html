@@ -53,6 +53,15 @@
                             </th>
                             <th class="actions">
                                 <span style="display: block">Acties</span>
+
+                                <button type="submit" class="btn btn-primary btn-sm me-1">
+                                    <i class="fas fa-filter"></i>
+                                </button>
+                                
+                                <a href="{{ url_for('question.create_question') }}" class="btn btn-success btn-sm me-1">
+                                    <i class="fas fa-plus"></i>
+                                </a>
+
                                 <div class="dropdown me-1" style="display: inline-block;">
                                     <button class="btn btn-secondary btn-sm" type="button"
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -71,12 +80,6 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-sm me-1">
-                                    <i class="fas fa-filter"></i>
-                                </button>
-                                <a href="{{ url_for('question.create_question') }}" class="btn btn-success btn-sm me-1">
-                                    <i class="fas fa-plus"></i>
-                                </a>
                             </th>
                         </tr>
                         </thead>
