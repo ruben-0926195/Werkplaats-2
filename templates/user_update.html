@@ -12,13 +12,13 @@
                 <form action="{{ url_for('user.user_update', user_id=user.user_id) }}" method="POST">
                     <!-- Login (Username) -->
                     <div class="mb-3">
-                        <label for="login" class="form-label">Gebruikersnaam:</label>
+                        <label for="login" class="form-label">Wijzig gebruikersnaam:</label>
                         <input
                                 type="text"
                                 class="form-control"
                                 id="login"
                                 name="login"
-                                placeholder="Enter your username"
+                                placeholder="Gebruikersnaam"
                                 value="{{ user.login }}"
                                 required
                         >
@@ -32,20 +32,20 @@
                                 class="form-control"
                                 id="password"
                                 name="password"
-                                placeholder="Enter a new password"
+                                placeholder="Voer een nieuw wachtwoord in"
                                 required
                         >
                     </div>
 
                     <!-- Display Name -->
                     <div class="mb-3">
-                        <label for="display_name" class="form-label">Weergavenaam:</label>
+                        <label for="display_name" class="form-label">Wijzig weergavenaam:</label>
                         <input
                                 type="text"
                                 class="form-control"
                                 id="display_name"
                                 name="display_name"
-                                placeholder="Enter your display name"
+                                placeholder="Weergavenaam"
                                 value="{{ user.display_name }}"
                                 required
                         >

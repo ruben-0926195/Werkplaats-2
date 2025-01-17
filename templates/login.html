@@ -16,11 +16,11 @@
 
         <form method="POST" action={{ url_for('login.login') }}>
             <div class="mb-3">
-                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                <label for="username"></label><input type="text" class="form-control" id="username" name="username" placeholder="Gebruikersnaam" required>
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password"
-                       required>
+                <label for="password"></label><input type="password" class="form-control" id="password" name="password" placeholder="Wachtwoord"
+                                                     required>
             </div>
             <button type="submit" class="btn btn-primary w-100">Inloggen</button>
         </form>

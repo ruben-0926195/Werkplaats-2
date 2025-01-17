@@ -30,24 +30,34 @@
                         <thead style="background-color: #f8f9fa;">
                         <tr>
                             <th>
-                                ID
-                                <input type="text" name="user_id" class="form-control form-control-sm mt-1"
-                                       placeholder="Search ID" value="{{ request.args.get('user_id', '') }}">
+                                <label>
+                                    ID
+                                    <input type="text" name="user_id" class="form-control form-control-sm mt-1"
+                                           placeholder="Filter ID" value="{{ request.args.get('user_id', '') }}">
+                                </label>
                             </th>
                             <th>
-                                Gebruikersnaam
-                                <input type="text" name="login" class="form-control form-control-sm mt-1"
-                                       placeholder="Search Username" value="{{ request.args.get('login', '') }}">
+                                <label>
+                                    Gebruikersnaam
+                                    <input type="text" name="login" class="form-control form-control-sm mt-1"
+                                           placeholder="Filter gebruikersnaam"
+                                           value="{{ request.args.get('login', '') }}">
+                                </label>
                             </th>
                             <th>
-                                Naam
-                                <input type="text" name="display_name" class="form-control form-control-sm mt-1"
-                                       placeholder="Search Name" value="{{ request.args.get('display_name', '') }}">
+                                <label>
+                                    Naam
+                                    <input type="text" name="display_name" class="form-control form-control-sm mt-1"
+                                           placeholder="Filter weergavenaam"
+                                           value="{{ request.args.get('display_name', '') }}">
+                                </label>
                             </th>
                             <th>
-                                Admin
-                                <input type="text" name="is_admin" class="form-control form-control-sm mt-1"
-                                       placeholder="Search Admin" value="{{ request.args.get('is_admin', '') }}">
+                                <label>
+                                    Admin
+                                    <input type="text" name="is_admin" class="form-control form-control-sm mt-1"
+                                           placeholder="Filter Admin" value="{{ request.args.get('is_admin', '') }}">
+                                </label>
                             </th>
                             <th class="actions">
                                 Acties
