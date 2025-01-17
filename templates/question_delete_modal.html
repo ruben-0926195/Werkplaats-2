@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}Confirm Deletion{% endblock %}
+{% block title %}Verwijderen bevestigen{% endblock %}
 
 {% block content %}
     <div class="card">
         <div class="card-header">
-            <h3>Confirm Deletion</h3>
+            <h3>Verwijderen bevestigen</h3>
         </div>
         <div class="card-body text-center">
-            <p>Are you sure you want to delete the question with ID {{ question.questions_id }}?</p>
+            <p>Weet je zeker dat je de prompt met ID {{ question.questions_id }} wil verwijderen?</p>
             <form method="POST">
-                <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                <a href="{{ url_for('question.question_overview') }}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-danger">Verwijderen</button>
+                <a href="{{ url_for('question.question_overview') }}" class="btn btn-secondary">Annuleren</a>
             </form>
         </div>
     </div>

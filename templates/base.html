@@ -109,14 +109,14 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if session.get("is_admin") %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Overview</a>
+                        <a class="nav-link active" aria-current="page" href="/">Overzicht</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/overview">Users</a>
+                        <a class="nav-link" href="/user/overview">Gebruikers</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/question/overview">Questions</a>
+                    <a class="nav-link" href="/question/overview">Vragen</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/prompt/overview">Prompts</a>
@@ -129,12 +129,12 @@
                         {{ session["username"] }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Profiel</a></li>
+                        <li><a class="dropdown-item" href="#">Instellingen</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href=" {{ url_for('login.logout') }}">Logout</a></li>
+                        <li><a class="dropdown-item" href=" {{ url_for('login.logout') }}">Uitloggen</a></li>
                     </ul>
                 </li>
             </ul>
