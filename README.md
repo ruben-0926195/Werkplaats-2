@@ -20,6 +20,26 @@ Om de app te runnen heb je de laatste python versie nodig of specifiek v3.13._
    ```sh
    python main.py
    ```
+
+maar het ook handig om als je geen enviroment heeft kan je via de terminal een .env opstarten via de volgende commando's
+  ```sh
+   python3 -m .venv .venv
+   ```
+
+daarna voer je deze commando uit om de .env te activeren
+  ```sh
+   .\.venv\scripts\activate
+   ```
+wanner dat je deze omgeving heb geactiveerd kan je de requirements installeer door 
+
+   ```sh
+   pip install -r requirements.txt
+   ```
+en daarna Run main.py in IDE of in terminal:
+   ```sh
+   python main.py
+   ```
+
 ### users
 username         password         role
 test             test             dit is een normale gebruiker rol, met deze rol heb je alleen toegang tot de tabladen questions en prompts
