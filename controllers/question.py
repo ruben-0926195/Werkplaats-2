@@ -140,7 +140,7 @@ def question_show(question_id):
     prompt = Prompt()
     prompts = prompt.get_prompts()
 
-    # Haal de gegenereerde prompt op voor deze specifieke vraag
+    # Get the generated promts for the specific questions
     proposal = session.get('generated_proposals', {}).get(question_id)
 
     return render_template('question_show.html', question=question, prompts=prompts, proposal=proposal)
