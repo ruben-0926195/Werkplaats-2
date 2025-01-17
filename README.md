@@ -41,9 +41,10 @@ en daarna Run main.py in IDE of in terminal:
    ```
 
 ### users
-username         password         role
-test             test             dit is een normale gebruiker rol, met deze rol heb je alleen toegang tot de tabladen questions en prompts
-admin            admin            dit is een admin rol, met deze rol kan de admin wachtwoorden wijzigen en accounts toevoegen
+| Username | Password | Role |
+|----------|----------|------|
+| test     | test     | dit is een normale gebruiker rol, met deze rol heb je alleen toegang tot de tabladen questions en prompts |
+| admin    | admin    | dit is een admin rol, met deze rol kan de admin wachtwoorden wijzigen en accounts toevoegen            |
 
 ### schermen
 
