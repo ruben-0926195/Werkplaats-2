@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}Confirm Deletion{% endblock %}
+{% block title %}Bevestig verwijdering{% endblock %}
 
 {% block content %}
     <div class="card">
         <div class="card-header">
-            <h3>Confirm Deletion</h3>
+            <h3>Bevestig verwijdering</h3>
         </div>
         <div class="card-body text-center">
-            <p>Are you sure you want to delete the user {{ user.login }} with ID {{ user.user_id }}?</p>
+            <p>Weet je zeker dat je gebruiker {{ user.login }} met ID {{ user.user_id }} wil verwijderen?</p>
             <form method="POST">
-                <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                <a href="{{ url_for('user.overview') }}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-danger">Verwijderen</button>
+                <a href="{{ url_for('user.overview') }}" class="btn btn-secondary">Annuleren</a>
             </form>
         </div>
     </div>

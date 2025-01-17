@@ -1,24 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Update User Information{% endblock %}
+{% block title %}Gebruikers informatie wijzigen{% endblock %}
 
 {% block content %}
     <!-- User Update Form -->
     <div class="container registration-container">
-        <h2 class="text-center mb-4">Update User Information</h2>
+        <h2 class="text-center mb-4">Gebruikers informatie wijzigen</h2>
         <div class="card">
             <div class="card-body">
                 <!-- Form action points to the update route with the user's ID -->
                 <form action="{{ url_for('user.user_update', user_id=user.user_id) }}" method="POST">
                     <!-- Login (Username) -->
                     <div class="mb-3">
-                        <label for="login" class="form-label">Login (Username):</label>
+                        <label for="login" class="form-label">Wijzig gebruikersnaam:</label>
                         <input
                                 type="text"
                                 class="form-control"
                                 id="login"
                                 name="login"
-                                placeholder="Enter your username"
+                                placeholder="Gebruikersnaam"
                                 value="{{ user.login }}"
                                 required
                         >
@@ -26,26 +26,26 @@
 
                     <!-- Password -->
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password:</label>
+                        <label for="password" class="form-label">Wachtwoord wijzigen:</label>
                         <input
                                 type="text"
                                 class="form-control"
                                 id="password"
                                 name="password"
-                                placeholder="Enter a new password"
+                                placeholder="Voer een nieuw wachtwoord in"
                                 required
                         >
                     </div>
 
                     <!-- Display Name -->
                     <div class="mb-3">
-                        <label for="display_name" class="form-label">Display Name:</label>
+                        <label for="display_name" class="form-label">Wijzig weergavenaam:</label>
                         <input
                                 type="text"
                                 class="form-control"
                                 id="display_name"
                                 name="display_name"
-                                placeholder="Enter your display name"
+                                placeholder="Weergavenaam"
                                 value="{{ user.display_name }}"
                                 required
                         >
@@ -65,7 +65,7 @@
 
                     <!-- Submit Button -->
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Update User</button>
+                        <button type="submit" class="btn btn-primary">Opslaan</button>
                     </div>
                 </form>
             </div>

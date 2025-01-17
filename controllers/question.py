@@ -45,7 +45,7 @@ def create_question():
             rtti = None
             taxonomy_bloom_changed = 0
             rtti_changed = 0
-            awnser = request.form.get('awnser')
+            answer = request.form.get('answer')
             subject = request.form.get('subject')
             subject_level = request.form.get('subject_level')
             grade = request.form.get('grade')
@@ -53,7 +53,7 @@ def create_question():
             data = Questions()
             data.create_question(questions_id, prompts_id, users_id, question, taxonomy_bloom,
                                  rtti, taxonomy_bloom_changed, rtti_changed,
-                                 awnser, subject, subject_level, grade)
+                                 answer, subject, subject_level, grade)
 
             flash("Vraag met succes aangemaakt!", "success")
             return redirect(url_for("question.question_overview"))

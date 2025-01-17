@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}User Information{% endblock %}
+{% block title %}Gebruikers informatie{% endblock %}
 
 {% block content %}
     <div class="container user-info-container">
-        <h2 class="text-center mb-4">User Information</h2>
+        <h2 class="text-center mb-4">Gebruikers informatie</h2>
         <div class="card">
             <div class="card-body">
                 <div class="row mb-3">
@@ -13,12 +13,12 @@
                 </div>
 
                 <div class="row mb-3">
-                    <div class="col-4 fw-bold">Username:</div>
+                    <div class="col-4 fw-bold">Gebruikersnaam:</div>
                     <div class="col-8">{{ user.login }}</div>
                 </div>
 
                 <div class="row mb-3">
-                    <div class="col-4 fw-bold">Display Name:</div>
+                    <div class="col-4 fw-bold">Weergavenaam:</div>
                     <div class="col-8">{{ user.display_name }}</div>
                 </div>
 

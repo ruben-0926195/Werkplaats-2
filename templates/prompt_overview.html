@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Prompt Overview{% endblock %}
+{% block title %}Prompt Overzicht{% endblock %}
 
 {% block content %}
     {{ prompt }}
@@ -31,28 +31,36 @@
                         <thead style="background-color: #f8f9fa;">
                         <tr>
                             <th>
-                                ID
-                                <input type="text" name="prompts_id" class="form-control form-control-sm mt-1"
-                                       placeholder="Search ID" value="{{ request.args.get('prompts_id', '') }}">
+                                <label>
+                                    ID
+                                    <input type="text" name="prompts_id" class="form-control form-control-sm mt-1"
+                                           placeholder="Filter ID" value="{{ request.args.get('prompts_id', '') }}">
+                                </label>
                             </th>
                             <th>
-                                Title
-                                <input type="text" name="title" class="form-control form-control-sm mt-1"
-                                       placeholder="Search Title" value="{{ request.args.get('title', '') }}">
+                                <label>
+                                    Naam
+                                    <input type="text" name="title" class="form-control form-control-sm mt-1"
+                                           placeholder="Filter naam" value="{{ request.args.get('title', '') }}">
+                                </label>
                             </th>
                             <th>
-                                Prompt
-                                <input type="text" name="prompt" class="form-control form-control-sm mt-1"
-                                       placeholder="Search Prompt" value="{{ request.args.get('prompt', '') }}">
+                                <label>
+                                    Prompt
+                                    <input type="text" name="prompt" class="form-control form-control-sm mt-1"
+                                           placeholder="Filter prompt" value="{{ request.args.get('prompt', '') }}">
+                                </label>
                             </th>
                             <th>
-                                Categorized
-                                <input type="text" name="categorized" class="form-control form-control-sm mt-1"
-                                       placeholder="Search Categorized"
-                                       value="{{ request.args.get('categorized', '') }}">
+                                <label>
+                                    Aantal vragen gecategoriseerd
+                                    <input type="text" name="categorized" class="form-control form-control-sm mt-1"
+                                           placeholder="Filter gecategoriseerd"
+                                           value="{{ request.args.get('categorized', '') }}">
+                                </label>
                             </th>
                             <th class="actions">
-                                Actions
+                                Acties
                                 <div>
                                     <button type="submit"
                                             class="btn btn-primary btn-sm me-1">
@@ -132,7 +140,7 @@
                                     </a>
                                 </li>
                             {% endif %}
-                            <p class="ms-4">Showing {{ start_result }} to {{ end_result }} out of {{ total_results }} results.</p>
+                            <p class="ms-4">{{ start_result }} tot {{ end_result }} van de {{ total_results }} resultaten weergegeven.</p>
                         </ul>
                     </nav>
                 </div>

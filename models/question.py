@@ -53,10 +53,10 @@ class Questions:
 
     def create_question(self, questions_id, prompts_id, users_id, question,
                         taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed,
-                        awnser, subject, subject_level, grade):
+                        answer, subject, subject_level, grade):
         self.cursor.execute(
             "INSERT into questions (questions_id,prompts_id,users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed, answer, vak, onderwijsniveau, leerjaar, question_index) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            (questions_id, prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed, awnser, subject, subject_level, grade,0))
+            (questions_id, prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed, answer, subject, subject_level, grade,0))
         self.con.commit()
         return True
 
