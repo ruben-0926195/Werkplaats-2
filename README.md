@@ -27,3 +27,4 @@ admin            admin            dit is een admin rol, met deze rol kan de admi
 
 ### schermen
 
+![image](https://github.com/user-attachments/assets/dbd0dc83-4e70-4015-80cd-43df97662fdc)
