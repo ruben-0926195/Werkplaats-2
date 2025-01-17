@@ -11,16 +11,18 @@ class Questions:
         data = self.cursor.fetchone()
         return data[0] if data else 0
 
-    def get_all_questions(self, page, per_page, filters=None):
-
+    def get_all_questions(self, page, per_page, filters=None, unscored_only=False):
         offset = (page - 1) * per_page
 
         query_get_questions = "SELECT * FROM questions WHERE 1=1"
         query_get_total_questions = "SELECT COUNT(*) FROM questions WHERE 1=1"
         params = []
 
+        if unscored_only:
+            query_get_questions += " AND (taxonomy_bloom IS NULL AND rtti IS NULL)"
+            query_get_total_questions += " AND (taxonomy_bloom IS NULL AND rtti IS NULL)"
+
         if filters:
-            # Apply filters
             if filters.get("questions_id"):
                 query_get_questions += " AND questions_id LIKE ?"
                 query_get_total_questions += " AND questions_id LIKE ?"
