@@ -140,38 +140,50 @@ def question_show(question_id):
     prompt = Prompt()
     prompts = prompt.get_prompts()
 
-    # Haal de gegenereerde prompt op voor deze specifieke vraag
+    # Get the generated promts for the specific questions
     proposal = session.get('generated_proposals', {}).get(question_id)
 
     return render_template('question_show.html', question=question, prompts=prompts, proposal=proposal)
+
 
 @question_routes.route('/question/update_taxonomy/<question_id>', methods=['POST'])
 def update_taxonomy(question_id):
     selected_taxonomy = request.form.get('taxonomy_bloom')
     users_id = session.get('user_id')
-
-    # Ensure that users_id is correctly obtained from the session
-    if not users_id:
-        flash("User is not logged in.", "danger")
-        return redirect(url_for('login.login'))
-
-    # Update the taxonomy and user ID in the database
     data = Questions()
+
     try:
+        # Update the taxonomy in the database
         data.cursor.execute("""
             UPDATE questions
             SET taxonomy_bloom = ?, users_id = ?
             WHERE questions_id = ?
-        """, (selected_taxonomy, users_id, question_id))  # Correct order of parameters
+        """, (selected_taxonomy,users_id, question_id))
         data.con.commit()
         flash("Taxonomie succesvol bijgewerkt!", "success")
+
+        # Determine the next question ID
+        data.cursor.execute("""
+            SELECT questions_id
+            FROM questions
+            WHERE questions_id > ?
+            ORDER BY questions_id ASC
+            LIMIT 1
+        """, (question_id,))
+        next_question = data.cursor.fetchone()
+
+        # Redirect to the next question or the overview if no more questions
+        if next_question:
+            return redirect(url_for('question.question_show', question_id=next_question[0]))
+        else:
+            flash("Geen volgende vraag beschikbaar!", "info")
+            return redirect(url_for('question.question_overview'))
     except Exception as e:
         flash(f"Fout bij het bijwerken van de taxonomie: {e}", "danger")
+        return redirect(url_for('question.question_show', question_id=question_id))
     finally:
         data.close_connection()
 
-    # Redirect back to the question show page
-    return redirect(url_for('question.question_show', question_id=question_id))
 
 @question_routes.route('/question/delete/<question_id>', methods=['GET', 'POST'])
 def question_delete(question_id):
