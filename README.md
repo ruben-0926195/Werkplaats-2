@@ -20,3 +20,10 @@ Om de app te runnen heb je de laatste python versie nodig of specifiek v3.13._
    ```sh
    python main.py
    ```
+### users
+username         password         role
+test             test             dit is een normale gebruiker rol, met deze rol heb je alleen toegang tot de tabladen questions en prompts
+admin            admin            dit is een admin rol, met deze rol kan de admin wachtwoorden wijzigen en accounts toevoegen
+
+### schermen
+
