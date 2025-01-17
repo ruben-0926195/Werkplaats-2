@@ -1,16 +1,17 @@
 import json
+
 from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash, send_file
+
 from models.prompt import Prompt
 from models.question import Questions, call_llm_api
 from models.question_extraction import process_json
-from lib.gpt.bloom_taxonomy import get_bloom_category
 
 question_routes = Blueprint('question', __name__)
 
 
 def create_export_file():
     data = Questions()
-    all_questions = data.get_handeld_questions()
+    all_questions = data.get_handled_questions()
     file_path = "export_files/questions_export.json"
 
     with open(file_path, "w") as f:
@@ -18,6 +19,7 @@ def create_export_file():
             f.write(json.dumps(dict(question)) + ",")
             data.delete_question(question["questions_id"])
         f.close()
+
 
 @question_routes.route('/question/download')
 def export_questions():
@@ -32,6 +34,7 @@ def question_indexing():
         return redirect(url_for('login.login'))
 
     return "question_indexing"
+
 
 @question_routes.route('/question/create', methods=['GET', 'POST'])
 def create_question():
@@ -62,7 +65,6 @@ def create_question():
             return redirect(url_for("question.create_question"))
 
     return render_template('question_create.html')
-
 
 
 @question_routes.route('/question/overview', methods=['GET', 'POST'])
@@ -140,7 +142,7 @@ def question_show(question_id):
     prompt = Prompt()
     prompts = prompt.get_prompts()
 
-    # Get the generated promts for the specific questions
+    # Get the generated prompts for the specific questions
     proposal = session.get('generated_proposals', {}).get(question_id)
 
     return render_template('question_show.html', question=question, prompts=prompts, proposal=proposal)
@@ -158,7 +160,7 @@ def update_taxonomy(question_id):
             UPDATE questions
             SET taxonomy_bloom = ?, users_id = ?
             WHERE questions_id = ?
-        """, (selected_taxonomy,users_id, question_id))
+        """, (selected_taxonomy, users_id, question_id))
         data.con.commit()
         flash("Taxonomie succesvol bijgewerkt!", "success")
 

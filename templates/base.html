@@ -112,14 +112,17 @@
                         <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="/">Overzicht</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/user/overview' %}active{% endif %}" href="/user/overview">Gebruikers</a>
+                        <a class="nav-link {% if request.path == '/user/overview' %}active{% endif %}"
+                           href="/user/overview">Gebruikers</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/question/overview' %}active{% endif %}" href="/question/overview">Vragen</a>
+                    <a class="nav-link {% if request.path == '/question/overview' %}active{% endif %}"
+                       href="/question/overview">Vragen</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/prompt/overview' %}active{% endif %}" href="/prompt/overview">Prompts</a>
+                    <a class="nav-link {% if request.path == '/prompt/overview' %}active{% endif %}"
+                       href="/prompt/overview">Prompts</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
@@ -129,12 +132,12 @@
                         {{ session["username"] }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-{#                        Leaving these in for potential future features#}
-{#                        <li><a class="dropdown-item" href="#">Profiel</a></li>#}
-{#                        <li><a class="dropdown-item" href="#">Instellingen</a></li>#}
-{#                        <li>#}
-{#                            <hr class="dropdown-divider">#}
-{#                        </li>#}
+                        {#                        Leaving these in for potential future features#}
+                        {#                        <li><a class="dropdown-item" href="#">Profiel</a></li>#}
+                        {#                        <li><a class="dropdown-item" href="#">Instellingen</a></li>#}
+                        {#                        <li>#}
+                        {#                            <hr class="dropdown-divider">#}
+                        {#                        </li>#}
                         <li><a class="dropdown-item" href=" {{ url_for('login.logout') }}">Uitloggen</a></li>
                     </ul>
                 </li>

@@ -1,9 +1,9 @@
 import json
-import traceback
 import logging
+import traceback
 
-from openai import OpenAI
 from ollama import Client
+from openai import OpenAI
 
 gpt_model_map = {
     "dry_run": {
@@ -26,11 +26,11 @@ gpt_model_map = {
 
 def get_json_from_response(response):
     # Vaak geeft ChatGPT / Ollama een JSON terug, maar soms ook niet
-    # We gaan dus op zoek naar de JSON in de response..
+    # We gaan dus op zoek naar de JSON in de response.
     start_bracket_index = response.find("{")
     if start_bracket_index == -1:
         raise ValueError("No JSON found in response")
-    # ..rfind zoekt achterin de string naar het laatste voorkomen van een karakter
+    # .rfind zoekt achterin de string naar het laatste voorkomen van een karakter
     end_bracket_index = response.rfind("}")
     if end_bracket_index == -1:
         raise ValueError("No JSON found in response")

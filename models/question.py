@@ -57,12 +57,15 @@ class Questions:
                         taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed,
                         answer, subject, subject_level, grade):
         self.cursor.execute(
-            "INSERT into questions (questions_id,prompts_id,users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed, answer, vak, onderwijsniveau, leerjaar, question_index) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            (questions_id, prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed, rtti_changed, answer, subject, subject_level, grade,0))
+            "INSERT into questions (questions_id,prompts_id,users_id, question, taxonomy_bloom, rtti, "
+            "tax_bloom_changed, rtti_changed, answer, vak, onderwijsniveau, leerjaar, question_index) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            (questions_id, prompts_id, users_id, question, taxonomy_bloom, rtti, tax_bloom_changed,
+             rtti_changed, answer, subject, subject_level, grade, 0))
         self.con.commit()
         return True
 
-    def get_handeld_questions(self):
+    def get_handled_questions(self):
         self.cursor.execute("SELECT * FROM questions WHERE taxonomy_bloom IS NOT NULL OR rtti IS NOT NULL")
         questions = self.cursor.fetchall()
         return questions

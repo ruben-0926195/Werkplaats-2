@@ -49,29 +49,36 @@
         </form>
     </div>
 
-<div>
-    {% if proposal %}
-        <div class="proposal">
-            <h3>Gegenereerd voorstel</h3>
-            <p><strong>Niveau:</strong> {{ proposal.niveau }}</p>
-            <p><strong>Uitleg:</strong> {{ proposal.uitleg }}</p>
-        </div>
-    {% endif %}
-</div>
-<form action="{{ url_for('question.update_taxonomy', question_id=question['questions_id']) }}" method="post">
-    <div class="mb-3">
-        <label for="taxonomySelect" class="form-label"><strong>Taxonomie (Bloom)</strong></label>
-       <select id="taxonomySelect" name="taxonomy_bloom" class="form-select" data-bs-placement="bottom">
-            <option value="Onthouden" {% if question.taxonomy_bloom == "Onthouden" %}selected{% endif %}>Onthouden</option>
-            <option value="Begrijpen" {% if question.taxonomy_bloom == "Begrijpen" %}selected{% endif %}>Begrijpen</option>
-            <option value="Toepassen" {% if question.taxonomy_bloom == "Toepassen" %}selected{% endif %}>Toepassen</option>
-            <option value="Analyseren" {% if question.taxonomy_bloom == "Analyseren" %}selected{% endif %}>Analyseren</option>
-            <option value="Evalueren" {% if question.taxonomy_bloom == "Evalueren" %}selected{% endif %}>Evalueren</option>
-            <option value="Creëren" {% if question.taxonomy_bloom == "Creëren" %}selected{% endif %}>Creëren</option>
-        </select>
-
+    <div>
+        {% if proposal %}
+            <div class="proposal">
+                <h3>Gegenereerd voorstel</h3>
+                <p><strong>Niveau:</strong> {{ proposal.niveau }}</p>
+                <p><strong>Uitleg:</strong> {{ proposal.uitleg }}</p>
+            </div>
+        {% endif %}
     </div>
-    <button type="submit" class="btn btn-success">Opslaan</button>
-</form>
+    <form action="{{ url_for('question.update_taxonomy', question_id=question['questions_id']) }}" method="post">
+        <div class="mb-3">
+            <label for="taxonomySelect" class="form-label"><strong>Taxonomie (Bloom)</strong></label>
+            <select id="taxonomySelect" name="taxonomy_bloom" class="form-select" data-bs-placement="bottom">
+                <option value="Onthouden" {% if question.taxonomy_bloom == "Onthouden" %}selected{% endif %}>Onthouden
+                </option>
+                <option value="Begrijpen" {% if question.taxonomy_bloom == "Begrijpen" %}selected{% endif %}>Begrijpen
+                </option>
+                <option value="Toepassen" {% if question.taxonomy_bloom == "Toepassen" %}selected{% endif %}>Toepassen
+                </option>
+                <option value="Analyseren" {% if question.taxonomy_bloom == "Analyseren" %}selected{% endif %}>
+                    Analyseren
+                </option>
+                <option value="Evalueren" {% if question.taxonomy_bloom == "Evalueren" %}selected{% endif %}>Evalueren
+                </option>
+                <option value="Creëren" {% if question.taxonomy_bloom == "Creëren" %}selected{% endif %}>Creëren
+                </option>
+            </select>
+
+        </div>
+        <button type="submit" class="btn btn-success">Opslaan</button>
+    </form>
 
 {% endblock %}

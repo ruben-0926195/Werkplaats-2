@@ -2,7 +2,7 @@ import json
 import logging
 import os
 
-from flask import Flask, render_template, request
+from flask import Flask
 
 from models.database import Database
 
@@ -57,7 +57,8 @@ def process_json(file):
                 # Insert into database
                 sql = '''
                     INSERT INTO questions 
-                    (questions_id, prompts_id, users_id, question, answer, vak, onderwijsniveau, leerjaar, question_index, taxonomy_bloom, rtti) 
+                    (questions_id, prompts_id, users_id, question, answer, vak, onderwijsniveau, 
+                    leerjaar, question_index, taxonomy_bloom, rtti) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 '''
                 val = (
