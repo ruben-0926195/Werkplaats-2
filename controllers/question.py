@@ -298,10 +298,3 @@ def generate_proposal(question_id):
         flash("Failed to generate proposal.", "danger")
 
     return redirect(url_for('question.question_show', question_id=question_id))
-
-
-
-
-
-
-
