@@ -2,11 +2,13 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 
 from lib.helpers import hash_password
 from models.user import User
+from extensions import limiter
 
 login_routes = Blueprint('login', __name__)
 
 
 @login_routes.route('/login', methods=['GET', 'POST'])
+@limiter.limit("1 per minute", methods=["POST"])
 def login():
     if "logged_in" in session:
         return redirect(url_for('question.question_overview'))
