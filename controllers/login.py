@@ -8,7 +8,7 @@ login_routes = Blueprint('login', __name__)
 
 
 @login_routes.route('/login', methods=['GET', 'POST'])
-@limiter.limit("1 per minute", methods=["POST"])
+@limiter.limit("10 per minute", methods=["POST"])
 def login():
     if "logged_in" in session:
         return redirect(url_for('question.question_overview'))

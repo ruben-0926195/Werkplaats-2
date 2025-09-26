@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 
-from lib.helpers import hash_password
+from lib.helpers import hash_password, check_password_strength
 from models.prompt import Prompt
 from models.question import Questions
 from models.user import User
@@ -121,6 +121,11 @@ def user_create():
         password = request.form.get('password')
         display_name = request.form.get('display_name')
         is_admin = request.form.get('is_admin') == 'on'  # Checkbox is checked
+
+        valid, message = check_password_strength(password)
+        if not valid:
+            flash(message, "error")
+            return redirect(url_for('user.user_overview'))
 
         # Hash the password before saving
         hashed_password = hash_password(password)
