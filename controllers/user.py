@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 
-from lib.helpers import hash_password, check_password_strength
+from lib.helpers import hash_password, verify_password, check_password_strength
 from models.prompt import Prompt
 from models.question import Questions
 from models.user import User
